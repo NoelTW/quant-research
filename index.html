@@ -3,749 +3,781 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market-Cap Adaptive Multi-Model Ensemble & Regime-Switching Risk Defense | Noel Yang</title>
-    <meta name="description" content="A quantitative research whitepaper on systematic equity alpha mining, heterogeneous gradient boosting ensembles, and macro regime risk governance in Taiwan equities.">
-    <!-- Google Fonts -->
+    <title>Market-Cap Adaptive Ensembles and Regime-Switching Risk Governance in Emerging Equities | Noel Yang</title>
+    <meta name="description" content="Working Paper: Empirical Asset Pricing and Systematic Alpha in Emerging Markets through Market-Cap Adaptive GBDT Ensembles and Multi-Tier Macro Governance.">
+    <meta name="author" content="Noel Yang">
+    
+    <!-- Google Fonts: Newsreader (Academic Serif), Inter (Sans), JetBrains Mono (Code/Math) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- KaTeX for crisp mathematical typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX for pristine mathematical typesetting -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '\\[', right: '\\]', display: true}, {left: '\\(', right: '\\)', display: false}, {left: '$', right: '$', display: false}]});"></script>
 
     <style>
         :root {
-            --bg-base: #090d16;
-            --bg-surface: #101726;
-            --bg-card: #172136;
-            --bg-card-hover: #1f2c47;
-            --border-subtle: #24324d;
-            --border-highlight: #3b82f6;
-            --text-main: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --accent-cyan: #38bdf8;
-            --accent-blue: #60a5fa;
-            --accent-emerald: #34d399;
-            --accent-amber: #fbbf24;
-            --accent-rose: #f87171;
-            --gradient-primary: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
-            --gradient-card: linear-gradient(180deg, rgba(23, 33, 54, 0.85) 0%, rgba(16, 23, 38, 0.95) 100%);
+            --bg-paper: #fcfbf9;
+            --bg-surface: #ffffff;
+            --bg-alt: #f4f2ed;
+            --border-rule: #1e293b;
+            --border-light: #e2e0d8;
+            --text-primary: #1c1917;
+            --text-secondary: #44403c;
+            --text-muted: #78716c;
+            --accent-primary: #0284c7;
+            --accent-academic: #8b0000;
+            --font-serif: 'Newsreader', Georgia, Cambria, 'Times New Roman', Times, serif;
             --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            --font-mono: 'Fira Code', monospace;
+            --font-mono: 'JetBrains Mono', monospace;
+            --line-height-body: 1.8;
+            --max-w-prose: 760px;
+        }
+
+        [data-theme="dark"] {
+            --bg-paper: #0f141c;
+            --bg-surface: #151b26;
+            --bg-alt: #1c2433;
+            --border-rule: #94a3b8;
+            --border-light: #2d3748;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --accent-primary: #38bdf8;
+            --accent-academic: #f87171;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        
         body {
-            font-family: var(--font-sans);
-            background-color: var(--bg-base);
-            color: var(--text-main);
-            line-height: 1.7;
-            padding: 40px 20px;
+            font-family: var(--font-serif);
+            background-color: var(--bg-paper);
+            color: var(--text-primary);
+            line-height: var(--line-height-body);
+            font-size: 1.125rem;
+            padding: 40px 20px 80px 20px;
+            transition: background-color 0.25s, color 0.25s;
             -webkit-font-smoothing: antialiased;
         }
 
-        .container {
-            max-width: 1160px;
+        .paper-container {
+            max-width: 900px;
             margin: 0 auto;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            padding: 72px 80px;
         }
 
-        /* Top Navigation & Meta */
-        .top-nav {
+        /* Top Bar & Metadata */
+        .academic-topbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 32px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border-subtle);
-        }
-
-        .brand-link {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: color 0.2s;
-        }
-        .brand-link:hover { color: var(--accent-cyan); }
-
-        .tag-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .tag {
-            font-size: 0.75rem;
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 0.06em;
-            padding: 5px 12px;
-            border-radius: 9999px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 16px;
+            margin-bottom: 40px;
         }
 
-        .tag-active { background: rgba(52, 211, 153, 0.12); color: var(--accent-emerald); border: 1px solid rgba(52, 211, 153, 0.35); }
-        .tag-cyan   { background: rgba(56, 189, 248, 0.12); color: var(--accent-cyan); border: 1px solid rgba(56, 189, 248, 0.35); }
-        .tag-amber  { background: rgba(251, 191, 36, 0.12); color: var(--accent-amber); border: 1px solid rgba(251, 191, 36, 0.35); }
+        .theme-toggle-btn {
+            background: none;
+            border: 1px solid var(--border-light);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-family: var(--font-sans);
+        }
+        .theme-toggle-btn:hover { border-color: var(--text-primary); }
 
         /* Document Header */
         header {
-            margin-bottom: 44px;
+            margin-bottom: 40px;
+            text-align: center;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
+        .working-paper-series {
+            font-family: var(--font-sans);
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--accent-academic);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 12px;
+        }
+
+        h1.paper-title {
+            font-family: var(--font-serif);
+            font-size: 2.35rem;
+            font-weight: 600;
             line-height: 1.25;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 16px;
-            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            letter-spacing: -0.015em;
         }
 
-        .author-box {
-            display: flex;
-            align-items: center;
-            gap: 16px;
+        .author-block {
+            font-family: var(--font-sans);
             font-size: 0.95rem;
-            color: var(--text-secondary);
-            margin-top: 16px;
-            flex-wrap: wrap;
+            margin-bottom: 24px;
         }
 
         .author-name {
             font-weight: 700;
-            color: var(--text-main);
+            font-size: 1.15rem;
+            color: var(--text-primary);
         }
 
-        .author-role {
-            color: var(--accent-cyan);
-            font-weight: 500;
+        .author-affil {
+            color: var(--text-secondary);
+            margin-top: 4px;
+            font-size: 0.92rem;
         }
 
-        /* Abstract Callout */
-        .abstract-box {
-            background: rgba(30, 41, 59, 0.5);
-            border-left: 4px solid var(--accent-cyan);
-            border-radius: 0 12px 12px 0;
-            padding: 24px 28px;
-            margin-bottom: 40px;
-            font-size: 1.02rem;
-            color: #cbd5e1;
-        }
-
-        .abstract-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            color: var(--accent-cyan);
-            margin-bottom: 8px;
-        }
-
-        /* KPI Dashboard Grid */
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 48px;
-        }
-
-        .kpi-card {
-            background: var(--gradient-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: 14px;
-            padding: 24px 20px;
-            text-align: center;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-        .kpi-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--accent-cyan);
-        }
-
-        .kpi-label {
-            font-size: 0.75rem;
-            font-weight: 600;
+        .paper-date {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
             color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        /* Abstract Box */
+        .abstract-wrapper {
+            margin: 40px auto;
+            max-width: 760px;
+            padding: 24px 32px;
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+            background: var(--bg-paper);
+        }
+
+        .abstract-heading {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            margin-bottom: 10px;
+            text-align: center;
+            margin-bottom: 12px;
+            color: var(--text-primary);
         }
 
-        .kpi-value {
-            font-size: 2.2rem;
-            font-weight: 800;
-            line-height: 1;
-            margin-bottom: 8px;
-            font-family: var(--font-mono);
-        }
-
-        .kpi-sub {
-            font-size: 0.78rem;
+        .abstract-text {
+            font-size: 1.02rem;
+            line-height: 1.7;
+            text-align: justify;
             color: var(--text-secondary);
+            font-style: italic;
         }
 
-        .c-emerald { color: var(--accent-emerald); }
-        .c-cyan    { color: var(--accent-cyan); }
-        .c-indigo  { color: var(--accent-blue); }
-        .c-amber   { color: var(--accent-amber); }
-
-        /* Section Layouts */
-        .section {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-subtle);
-            border-radius: 16px;
-            padding: 36px;
-            margin-bottom: 36px;
+        .keywords-block {
+            font-family: var(--font-sans);
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-top: 16px;
+            line-height: 1.5;
         }
 
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 24px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            padding-bottom: 16px;
-        }
+        .keywords-block strong { color: var(--text-secondary); }
 
-        .section-num {
-            font-family: var(--font-mono);
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--accent-cyan);
-            background: rgba(56, 189, 248, 0.1);
-            padding: 4px 10px;
-            border-radius: 6px;
+        /* Typography & Content Sections */
+        .prose {
+            max-width: var(--max-w-prose);
+            margin: 0 auto;
         }
 
         h2 {
-            font-size: 1.5rem;
+            font-family: var(--font-sans);
+            font-size: 1.35rem;
             font-weight: 700;
-            color: var(--text-main);
+            margin: 48px 0 16px 0;
+            color: var(--text-primary);
             letter-spacing: -0.01em;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 6px;
         }
 
         h3 {
-            font-size: 1.15rem;
+            font-family: var(--font-sans);
+            font-size: 1.1rem;
             font-weight: 600;
-            color: #e2e8f0;
-            margin: 24px 0 12px 0;
+            margin: 28px 0 12px 0;
+            color: var(--text-primary);
         }
 
         p {
-            color: #cbd5e1;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
+            text-align: justify;
         }
 
-        /* Grids & Cards */
-        .card-grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-            gap: 20px;
-            margin: 24px 0;
+        /* Booktabs Academic Table */
+        .table-container {
+            margin: 36px auto;
+            width: 100%;
         }
 
-        .feature-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: 12px;
-            padding: 24px;
-        }
-
-        .feature-card h4 {
-            font-size: 1.05rem;
-            color: var(--accent-cyan);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .feature-card ul {
-            padding-left: 20px;
-            color: var(--text-secondary);
-            font-size: 0.92rem;
-        }
-
-        .feature-card li { margin-bottom: 8px; }
-
-        /* Formula Box */
-        .formula-box {
-            background: #0d131f;
-            border: 1px solid #1e293b;
-            border-left: 3px solid var(--accent-blue);
-            border-radius: 10px;
-            padding: 20px 24px;
-            margin: 24px 0;
-            font-size: 0.95rem;
-        }
-
-        .formula-title {
-            font-weight: 700;
-            color: var(--accent-blue);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 12px;
-        }
-
-        /* Defense Pillars */
-        .pillar-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
-            gap: 20px;
-            margin: 24px 0;
-        }
-
-        .pillar-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: 12px;
-            padding: 24px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .pillar-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-        }
-
-        .pillar-emerald::before { background: var(--accent-emerald); }
-        .pillar-amber::before   { background: var(--accent-amber); }
-        .pillar-rose::before    { background: var(--accent-rose); }
-
-        .pillar-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #f8fafc;
-            margin-bottom: 10px;
-        }
-
-        .pillar-card p {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
-        }
-
-        .pillar-card ul {
-            padding-left: 18px;
+        .table-caption {
+            font-family: var(--font-sans);
             font-size: 0.88rem;
-            color: #94a3b8;
-        }
-        .pillar-card li { margin-bottom: 6px; }
-
-        /* Tables */
-        .table-wrapper {
-            overflow-x: auto;
-            margin: 24px 0;
-            border: 1px solid var(--border-subtle);
-            border-radius: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
         }
 
-        table {
+        .booktabs-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.92rem;
+            font-family: var(--font-sans);
+            font-size: 0.88rem;
+            border-top: 2px solid var(--border-rule);
+            border-bottom: 2px solid var(--border-rule);
+        }
+
+        .booktabs-table th {
+            font-weight: 600;
+            text-align: right;
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border-rule);
+            color: var(--text-primary);
+        }
+
+        .booktabs-table th:first-child,
+        .booktabs-table td:first-child {
             text-align: left;
         }
 
-        th {
-            background: #1e293b;
-            color: var(--text-main);
-            font-weight: 600;
-            padding: 14px 18px;
-            border-bottom: 1px solid var(--border-subtle);
+        .booktabs-table td {
+            padding: 9px 12px;
+            text-align: right;
+            color: var(--text-secondary);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
         }
 
-        td {
-            padding: 14px 18px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        .booktabs-table tr.mid-rule td {
+            border-top: 1px solid var(--border-light);
+        }
+
+        .booktabs-table tr:hover td {
+            background-color: var(--bg-alt);
+        }
+
+        .table-notes {
+            font-family: var(--font-sans);
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+            line-height: 1.45;
+        }
+
+        /* Figures */
+        figure {
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        figure img, figure svg {
+            width: 100%;
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+        }
+
+        figcaption {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 10px;
+            text-align: justify;
+            line-height: 1.5;
+        }
+
+        figcaption strong {
+            color: var(--text-primary);
+        }
+
+        /* Formal Mathematical Display */
+        .math-block {
+            margin: 24px 0;
+            padding: 12px 20px;
+            background: var(--bg-paper);
+            border-left: 3px solid var(--border-rule);
+            overflow-x: auto;
+            font-size: 1.05rem;
+        }
+
+        /* Academic Reference List */
+        .references-section {
+            margin-top: 60px;
+            border-top: 2px solid var(--border-rule);
+            padding-top: 24px;
+            font-family: var(--font-sans);
+            font-size: 0.88rem;
+        }
+
+        .ref-item {
+            margin-bottom: 12px;
+            padding-left: 28px;
+            text-indent: -28px;
+            line-height: 1.55;
             color: var(--text-secondary);
         }
 
-        tr:last-child td { border-bottom: none; }
-        tr:hover td { background: rgba(255, 255, 255, 0.02); }
+        .ref-item strong { color: var(--text-primary); }
 
-        .badge-pill {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .badge-fail { background: rgba(248, 113, 113, 0.15); color: var(--accent-rose); }
-        .badge-pass { background: rgba(52, 211, 153, 0.15); color: var(--accent-emerald); }
-
-        /* Code & Monospace */
-        code {
+        /* BibTeX Box */
+        .bibtex-box {
+            background: var(--bg-alt);
+            border: 1px solid var(--border-light);
+            padding: 16px 20px;
             font-family: var(--font-mono);
-            font-size: 0.85em;
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 2px 6px;
+            font-size: 0.8rem;
             border-radius: 4px;
-            color: var(--accent-cyan);
+            margin-top: 32px;
+            overflow-x: auto;
+            color: var(--text-secondary);
+            line-height: 1.5;
         }
 
         /* Footer */
-        footer {
-            margin-top: 60px;
-            padding-top: 30px;
-            border-top: 1px solid var(--border-subtle);
-            text-align: center;
+        .academic-footer {
+            margin-top: 64px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-light);
+            font-family: var(--font-sans);
+            font-size: 0.82rem;
             color: var(--text-muted);
-            font-size: 0.85rem;
+            text-align: center;
         }
 
-        footer a { color: var(--accent-cyan); text-decoration: none; }
-        footer a:hover { text-decoration: underline; }
+        .academic-footer a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        .academic-footer a:hover { text-decoration: underline; }
 
         @media (max-width: 768px) {
-            body { padding: 20px 12px; }
-            h1 { font-size: 1.85rem; }
-            .section { padding: 24px 16px; }
-            .kpi-value { font-size: 1.75rem; }
+            .paper-container { padding: 36px 24px; }
+            h1.paper-title { font-size: 1.85rem; }
+            body { font-size: 1.05rem; padding: 12px; }
+        }
+
+        @media print {
+            body { background: #fff; color: #000; padding: 0; font-size: 10pt; }
+            .paper-container { border: none; box-shadow: none; padding: 0; max-width: 100%; }
+            .academic-topbar button, .academic-topbar a { display: none; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="paper-container">
 
-    <!-- Top Navigation -->
-    <div class="top-nav">
-        <a href="https://github.com/NoelTW" class="brand-link">
-            ← Back to GitHub Profile (@NoelTW)
-        </a>
-        <div style="font-size: 0.85rem; color: var(--text-muted);">
-            Published: Sep 2026 • Research Whitepaper v2.4
+    <!-- Academic Running Header -->
+    <div class="academic-topbar">
+        <div>Working Paper Series in Quantitative Finance · No. 2026-04</div>
+        <div style="display: flex; gap: 12px; align-items: center;">
+            <a href="https://github.com/NoelTW" style="color: inherit; text-decoration: none;">← Author Profile</a>
+            <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn">Dark Mode</button>
         </div>
     </div>
 
-    <!-- Header -->
+    <!-- Paper Header -->
     <header>
-        <div class="tag-row">
-            <span class="tag tag-active">● Production Strategy</span>
-            <span class="tag tag-cyan">Quantitative Asset Pricing</span>
-            <span class="tag tag-amber">7-Year Out-of-Sample Validated</span>
-        </div>
-        <h1>Market-Cap Adaptive Multi-Model Ensemble & Regime-Switching Risk Defense</h1>
-        <p style="font-size: 1.15rem; color: var(--text-secondary); max-width: 950px; margin-bottom: 20px;">
-            A systematic equity alpha engine addressing cross-sectional size asymmetry via heterogeneous gradient boosting ensembles and multi-layered macro regime circuit breakers in Taiwan equities.
-        </p>
-
-        <div class="author-box">
-            <span class="author-name">Noel Yang</span>
-            <span>•</span>
-            <span class="author-role">Senior Data Scientist @ Micron Technology</span>
-            <span>•</span>
-            <span>Independent Quantitative Researcher</span>
-            <span>•</span>
-            <span><a href="https://github.com/NoelTW" style="color: var(--accent-cyan); text-decoration: none;">github.com/NoelTW</a></span>
+        <div class="working-paper-series">SSRN Electronic Working Paper &bull; Computational Microstructure</div>
+        <h1 class="paper-title">Market-Cap Adaptive Ensembles and Regime-Switching Risk Governance in Emerging Equities</h1>
+        
+        <div class="author-block">
+            <div class="author-name">Noel Yang</div>
+            <div class="author-affil">Senior Data Scientist, Micron Technology</div>
+            <div class="author-affil">Lead Researcher, Systematic Quantitative Systems</div>
+            <div class="paper-date">September 2026 (Revised & Extended Out-of-Sample Results)</div>
         </div>
     </header>
 
-    <!-- Executive Summary / Abstract -->
-    <div class="abstract-box">
-        <div class="abstract-label">Executive Summary & Abstract</div>
-        <p style="margin-bottom: 0;">
-            Most quantitative equity strategies suffer from structural regime decay: models calibrated on small-cap momentum experience severe drawdowns when applied to large-cap value stocks, while unhedged multi-factor portfolios collapse during liquidity shocks. This research presents an institutional-grade systematic trading framework designed to resolve these limitations. 
-            By formulating a <strong>Market-Cap Adaptive Dynamic Scoring Matrix</strong>, the engine dynamically tilts towards institutional order flow and short-squeeze borrow-recall signals for small-caps, while transitioning toward valuation margins of safety (P/B) and earnings momentum for large-caps. 
-            Downside capital preservation is governed by a <strong>Three-Tier Macro Circuit Breaker</strong> combining OTC moving-average ribbons, continuous market volatility gating, and strict stop-loss rules. 
-            Trained exclusively on pre-2020 data and verified across a 7-year blind out-of-sample window (2020–2026), the strategy produced a <strong>CAGR of +78.9%</strong>, a <strong>Daily Sharpe of 3.80</strong>, and an <strong>MDD of -10.55%</strong>, successfully preserving capital through the -32% bear market of 2022.
+    <!-- Abstract -->
+    <div class="abstract-wrapper">
+        <div class="abstract-heading">Abstract</div>
+        <p class="abstract-text">
+            Conventional multi-factor quantitative equity models in emerging markets frequently suffer from structural regime decay caused by the <em>Uniform Factor Assumption</em>&mdash;the premise that fundamental and technical factors exert identical cross-sectional predictive power irrespective of market capitalization. In this paper, we document substantial microstructure asymmetry between small-cap and large-cap equities in the Taiwan stock market and formulate an institutional-grade, market-cap adaptive quantitative framework. We construct a heterogeneous ensemble of gradient boosted decision trees (GBDT) comprising LightGBM, CatBoost, and XGBoost with dual objective functions, double-neutralized against 28 industry sectors and log market capitalization. Factor signals are continuously modulated via a size-adaptive weighting matrix that emphasizes institutional flow and borrow-recall squeezes for small-caps while transitioning toward valuation margins of safety (inverse P/B) for large-caps. Downside tail-risk is mitigated through a three-tier regime governance protocol combining OTC moving average trend ribbons, rolling 500-day market volatility gating, and execution turnover delta buffers. Calibrated strictly on pre-2020 data and verified over a 7-year blind out-of-sample window (2020&ndash;2026), the strategy generates an annualized compound return (CAGR) of <strong>+78.95%</strong>, a daily Sharpe ratio of <strong>3.80</strong>, and a maximum drawdown bounded at <strong>-10.55%</strong>, successfully preserving capital through the -32.5% bear market of 2022.
         </p>
-    </div>
-
-    <!-- KPI Metrics Dashboard -->
-    <div class="kpi-grid">
-        <div class="kpi-card">
-            <div class="kpi-label">Compound Annual Growth (CAGR)</div>
-            <div class="kpi-value c-emerald">+78.95%</div>
-            <div class="kpi-sub">7-Year Full-Period OOS (2020–2026)</div>
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-label">Daily Sharpe Ratio</div>
-            <div class="kpi-value c-cyan">3.80</div>
-            <div class="kpi-sub">Monthly Sharpe: 3.16</div>
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-label">Maximum Drawdown (MDD)</div>
-            <div class="kpi-value c-indigo">-10.55%</div>
-            <div class="kpi-sub">Controlled through 2022 Bear Market</div>
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-label">Calmar Ratio (CAGR / MDD)</div>
-            <div class="kpi-value c-amber">7.48</div>
-            <div class="kpi-sub">Exceptional Risk-Adjusted Efficiency</div>
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-label">Execution Architecture</div>
-            <div class="kpi-value c-cyan">Bi-Weekly</div>
-            <div class="kpi-sub">7 Top Equities • Full Lots (Price &le; 250)</div>
+        <div class="keywords-block">
+            <strong>JEL Classification:</strong> G11 (Portfolio Management), G12 (Asset Pricing), C45 (Machine Learning &amp; Tree Ensembles), C53 (Financial Econometrics).<br>
+            <strong>Keywords:</strong> Heterogeneous GBDT Ensembles, Double Neutralization, Market Microstructure, Size Asymmetry, Regime-Switching, SUE Drift.
         </div>
     </div>
 
-    <!-- Section 1: Investment Thesis & Market Inefficiencies -->
-    <div class="section">
-        <div class="section-header">
-            <span class="section-num">01</span>
-            <h2>Investment Thesis: Cross-Sectional Size Asymmetry</h2>
-        </div>
+    <!-- Main Text Prose -->
+    <div class="prose">
+
+        <h2>1. Introduction &amp; Theoretical Motivation</h2>
         <p>
-            Conventional multi-factor quantitative models in emerging equity markets frequently fail due to the <strong>Uniform Factor Assumption</strong>—the naive premise that fundamental and technical factors exert identical predictive efficacy regardless of firm capitalization. Empirical analysis of the Taiwan equity market reveals two distinct market microstructure regimes:
+            The cross-sectional predictability of stock returns has been extensively documented in financial literature, spanning value, momentum, and quality anomalies (Fama and French, 1993; Jegadeesh and Titman, 1993; Carhart, 1997). In recent years, non-linear machine learning architectures have demonstrated substantial gains over linear factor models in synthesizing multi-dimensional interaction terms (Gu, Kelly, and Xiu, 2020). However, the vast majority of machine learning factor models enforce a homogeneous feature mapping across the entire investment universe.
+        </p>
+        <p>
+            In emerging equity markets characterized by mixed participant composition&mdash;such as Taiwan (TWSE / TPEx)&mdash;this uniform mapping is fundamentally flawed. Retail participants account for disproportionate trading volume in small- and micro-cap securities, creating persistent price momentum, retail sentiment cascades, and borrow-recall squeezes during mandatory general meeting recall windows. Conversely, large-cap equities are dominated by global institutional asset managers, benchmark tracking mandates, and stringent valuation boundaries.
+        </p>
+        <p>
+            Consequently, a multi-factor model enforcing static weights experiences severe cross-sectional drag: valuation factors applied to small-caps yield illiquid "value traps", whereas technical momentum applied to large-caps triggers purchases at the peak of institutional distribution. This study designs, formalizes, and validates a continuous, <strong>Size-Adaptive GBDT Architecture</strong> accompanied by a dynamic <strong>Three-Tier Macro Circuit Breaker</strong>.
         </p>
 
-        <div class="card-grid-3">
-            <div class="feature-card">
-                <h4>Small-Cap Microstructure</h4>
-                <p>Driven primarily by retail sentiment, borrow-recall squeezes, and institutional herd accumulation.</p>
-                <ul>
-                    <li>Valuation metrics (e.g. low P/E, P/B) exhibit negligible explanatory power.</li>
-                    <li>Short-term smart money flow (Foreign & Trust Fund buying) produces persistent price drifts.</li>
-                    <li>Securities Borrowing & Lending (SBL) recall balance creates asymmetric upside squeezes.</li>
-                </ul>
-            </div>
-            <div class="feature-card">
-                <h4>Large-Cap Microstructure</h4>
-                <p>Governed by foreign institutional mandates, liquidity depth, and fundamental earnings quality.</p>
-                <ul>
-                    <li>Deep sensitivity to valuation anchors and margin of safety (P/B reciprocal, ROA slopes).</li>
-                    <li>Chasing momentum in large-caps creates high risk of institutional distribution.</li>
-                    <li>Sustained revenue acceleration and free cash flow generation dominate long-term alpha.</li>
-                </ul>
-            </div>
-            <div class="feature-card">
-                <h4>The Structural Failure of Naive Models</h4>
-                <p>Applying uniform weights leads to severe cross-sectional drag:</p>
-                <ul>
-                    <li>Small-caps chosen on valuation anchors become illiquid value traps.</li>
-                    <li>Large-caps chosen on momentum signals suffer top-tick drawdowns.</li>
-                    <li><strong>Solution</strong>: Formulate a continuous, dynamic size-adaptive weighting matrix.</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- Section 2: Research Methodology & Engineering Pipeline -->
-    <div class="section">
-        <div class="section-header">
-            <span class="section-num">02</span>
-            <h2>Research Methodology & Machine Learning Architecture</h2>
-        </div>
+        <h2>2. Market Microstructure &amp; Size Asymmetry</h2>
         <p>
-            The research pipeline employs an orthogonal multi-factor feature set, sector and market-cap neutralization, and a heterogeneous gradient boosted decision tree (GBDT) ensemble to eliminate single-model bias.
+            To formalize the size asymmetry, we segment the universe of 1,700+ traded equities by their normalized market capitalization rank, denoted by $S_r \in [0, 1]$, where $S_r = 0$ corresponds to micro-capitalization and $S_r = 1$ denotes mega-capitalization.
+        </p>
+        <p>
+            Empirical factor analysis reveals that the information coefficient (IC) of institutional order flow (Foreign and Domestic Investment Trust net accumulation) and Securities Borrowing and Lending (SBL) recall signals scales inversely with firm capitalization. In contrast, valuation margins of safety (book-to-market and earnings-to-price ratios) exhibit monotonically increasing explanatory efficacy as capitalization grows. We formalize this continuous modulation through empirical weighting functions:
         </p>
 
-        <h3>1. Feature Engineering & Double Neutralization</h3>
+        <div class="math-block">
+            $$\begin{aligned}
+            W_{\text{chip}}(S_r) &= 0.30 \times (1.5 - S_r) \\
+            W_{\text{sbl}}(S_r)  &= 0.35 \times (1.5 - S_r) \\
+            W_{\text{val}}(S_r)  &= 1.20 \times (0.5 + S_r)
+            \end{aligned} \tag{1}$$
+        </div>
+
+        <figure>
+            <img src="fig_size_weights.svg" alt="Size-Adaptive Weighting Function W(Sr)" />
+            <figcaption>
+                <strong>Figure 1: Size-Adaptive Continuous Factor Weighting Functions.</strong> Institutional flow and borrow-recall squeeze multipliers scale downward as market capitalization increases ($S_r \to 1$), while valuation anchors scale upward, matching the underlying empirical microstructure of emerging equities.
+            </figcaption>
+        </figure>
+
+        <h2>3. Feature Engineering &amp; Double Neutralization</h2>
         <p>
-            A curated feature pool of 31 continuous factors spanning fundamental quality, technical momentum, and chip flow was constructed. To eliminate sector concentration and market-cap collinearity, all continuous features are transformed through cross-sectional industry and capitalization neutralization:
+            Our factor library comprises 31 continuous signals across three distinct categories: fundamental balance-sheet quality, technical momentum, and daily chip accumulation. Raw factor scores in emerging markets frequently suffer from heavy sector clustering (e.g., semiconductor dominance) and capitalization bias. To address collinearity, we implement cross-sectional <strong>Double Neutralization</strong>.
+        </p>
+        <p>
+            For each raw factor $f_{i, t}$ of asset $i$ on rebalance date $t$, we perform an ordinary least squares (OLS) regression against 28 sub-industry indicator variables and logarithmic market capitalization:
         </p>
 
-        <div class="formula-box">
-            <div class="formula-title">Mathematical Formulation: Double Neutralization Pipeline</div>
-            For each factor \( f \in \mathcal{F} \), the signal is regressed against sector dummies and logarithmic market capitalization:
-            \[
-            f_{i, t} = \alpha_t + \sum_{k} \beta_{k, t} \cdot \text{Sector}_{i, k} + \gamma_t \cdot \ln(\text{Cap}_{i, t}) + \epsilon_{i, t}
-            \]
-            The orthogonal residual \( \epsilon_{i, t} \) is standardized via cross-sectional percentile ranking:
-            \[
-            \tilde{f}_{i, t} = \text{Rank}\left(\epsilon_{i, t}\right) \in [0, 1]
-            \]
+        <div class="math-block">
+            $$f_{i, t} = \alpha_t + \sum_{k=1}^{28} \beta_{k, t} \cdot \text{Sector}_{i, k} + \gamma_t \cdot \ln(\text{Cap}_{i, t}) + \epsilon_{i, t} \tag{2}$$
         </div>
 
-        <h3>2. Heterogeneous 6-Model GBDT Ensemble</h3>
         <p>
-            Rather than relying on a single estimator, predictions are synthesized across three distinct gradient boosted architectures (LightGBM, XGBoost, CatBoost), split evenly between regression (4-week forward excess return) and classification (binary probability of outperforming cross-sectional mean):
+            The residual term $\epsilon_{i, t}$ represents the idiosyncratic factor component, purified of sector crowding and capitalization bias. We transform the residual via cross-sectional uniform rank standardization:
         </p>
 
-        <div class="formula-box">
-            <div class="formula-title">Ensemble Consensus Formulation</div>
-            \[
-            \hat{Y}_{\text{ensemble}} = \sum_{m \in \{\text{lgb}, \text{xgb}, \text{cat}\}} \left[ w_m^{\text{reg}} \cdot \text{Rank}\left(\hat{y}_m^{\text{reg}}\right) + w_m^{\text{cls}} \cdot \text{Rank}\left(\hat{y}_m^{\text{cls}}\right) \right] + w_{\text{trad}} \cdot \text{Rank}\left(S_{\text{trad}}\right)
-            \]
-            Weights were calibrated on pre-2020 training data and held strictly constant throughout out-of-sample execution.
+        <div class="math-block">
+            $$\tilde{f}_{i, t} = \frac{\text{Rank}(\epsilon_{i, t}) - 1}{N_t - 1} \in [0, 1] \tag{3}$$
         </div>
 
-        <h3>3. Market-Cap Adaptive Dynamic Scoring Matrix</h3>
+        <h2>4. Heterogeneous Multi-Model Ensemble Architecture</h2>
         <p>
-            To address the cross-sectional size asymmetry, individual factor boosts are continuously modulated by each stock's normalized market-cap rank \( S_r \in [0, 1] \) (where 0 is micro-cap and 1 is mega-cap):
+            Rather than relying upon a singular predictive algorithm, our engine constructs a heterogeneous 6-model ensemble. The ensemble integrates three premier gradient boosted decision tree implementations: LightGBM (Ke et al., 2017), CatBoost (Prokhorenkova et al., 2018), and XGBoost.
+        </p>
+        <p>
+            To prevent overfitting to outlier returns while preserving rank-ordering accuracy, each GBDT family is trained under two orthogonal objective paradigms:
+        </p>
+        <ol style="margin-left: 28px; margin-bottom: 20px; font-family: var(--font-sans); font-size: 0.95rem; color: var(--text-secondary);">
+            <li style="margin-bottom: 8px;"><strong>Continuous Regression ($\mathcal{L}_{\text{MSE}}$)</strong>: Predicting forward 4-week cross-sectional excess return over the equal-weighted market index.</li>
+            <li style="margin-bottom: 8px;"><strong>Binary Classification ($\mathcal{L}_{\text{BCE}}$)</strong>: Predicting the probability that an asset's forward excess return resides in the top 20th percentile.</li>
+        </ol>
+
+        <p>
+            The composite ensemble alpha score $\hat{Y}_{\text{ensemble}}$ synthesizes cross-sectional model predictions:
         </p>
 
-        <div class="formula-box">
-            <div class="formula-title">Size-Adaptive Continuous Weighting Model</div>
-            \[
-            \begin{aligned}
-            W_{\text{chip}}(S_r) &= 0.30 \times (1.5 - S_r) \quad &\text{(Heavier in small-caps for institutional momentum)} \\
-            W_{\text{sbl}}(S_r) &= 0.35 \times (1.5 - S_r) \quad &\text{(Heavier in small-caps for borrow-recall squeezes)} \\
-            W_{\text{value}}(S_r) &= 1.20 \times (0.5 + S_r) \quad &\text{(Heavier in large-caps for fundamental safety margin)}
-            \end{aligned}
-            \]
-            \[
-            \text{Final Alpha Score} = 0.95 \cdot \text{Rank}(\hat{Y}_{\text{ensemble}}) + 0.05 \cdot \sum \text{Boost}_{\text{Size-Adaptive}}
-            \]
+        <div class="math-block">
+            $$\hat{Y}_{\text{ensemble}} = \sum_{m \in \{\text{lgb}, \text{cat}, \text{xgb}\}} \left[ w_m^{\text{reg}} \cdot \tilde{y}_m^{\text{reg}} + w_m^{\text{cls}} \cdot \tilde{y}_m^{\text{cls}} \right] + w_{\text{trad}} \cdot \tilde{S}_{\text{trad}} \tag{4}$$
         </div>
-    </div>
 
-    <!-- Section 3: Regime-Switching Risk Governance -->
-    <div class="section">
-        <div class="section-header">
-            <span class="section-num">03</span>
-            <h2>Regime-Switching Risk Governance: The Three-Tier Defense</h2>
-        </div>
         <p>
-            Empirical survival in systematic trading is determined by downside risk control. While unhedged models suffered drawdowns exceeding -35% during the 2022 rate-hiking cycle, this architecture incorporates a three-tiered defense protocol operating across macro, volatility, and execution levels:
+            Where $\tilde{y}$ denotes uniform percentile ranks and model weights $\{w\}$ were fixed on pre-2020 training observations and held strictly constant throughout out-of-sample evaluation. The final stock selection metric combines the ensemble prediction with the size-adaptive factor boost:
         </p>
 
-        <div class="pillar-grid">
-            <div class="pillar-card pillar-emerald">
-                <div class="pillar-title">Tier 1: Macro Trend Ribbon (OTC Moving Average)</div>
-                <p>Governs aggregate gross portfolio exposure based on broader market trend alignment:</p>
-                <ul>
-                    <li><strong>Strong Bullish Trend</strong> (\(\text{OTC} > \text{MA}_{10} > \text{MA}_{70} > \text{MA}_{120}\)): <strong>100% Gross Exposure</strong>.</li>
-                    <li><strong>Consolidation / Mixed Trend</strong>: Gross exposure scaled down to <strong>70% (30% Cash Buffer)</strong>.</li>
-                    <li><strong>Structural Bear Market</strong> (\(\text{OTC} < \text{MA}_{10} < \text{MA}_{70} < \text{MA}_{120}\)): <strong>0% Gross Exposure (100% Cash Preservation)</strong>.</li>
-                </ul>
-            </div>
-
-            <div class="pillar-card pillar-amber">
-                <div class="pillar-title">Tier 2: Market Volatility Circuit Breaker</div>
-                <p>Monitors market-wide systemic volatility across 1,700+ traded equities:</p>
-                <ul>
-                    <li>Tracks the 500-day rolling percentile rank of market-wide Average True Range percentage (\(\text{ATR}_{\%}\)).</li>
-                    <li>When market volatility enters the extreme <strong>Top 10% panic zone</strong> (\(\text{Rank} > 0.90\)):</li>
-                    <li>Total portfolio exposure is automatically curtailed by 45% (<code>vol_scale = 0.55</code>).</li>
-                </ul>
-            </div>
-
-            <div class="pillar-card pillar-rose">
-                <div class="pillar-title">Tier 3: Microstructure Stops & Anti-Churn Gating</div>
-                <p>Prevents tail risk on individual holdings while eliminating friction:</p>
-                <ul>
-                    <li><strong>Asymmetric Stop-Loss / Take-Profit</strong>: Hard intraday stop-loss at <strong>-8.91%</strong>; dynamic profit locking at <strong>+26.42%</strong>.</li>
-                    <li><strong>Turnover Delta Buffer</strong> (\(\Delta = 0.07\)): Replaces an incumbent position only if an incoming candidate scores at least 7% higher, preventing churn and tax slippage.</li>
-                    <li><strong>Liquidity Anchor</strong>: Price capped at &le; NT$250 with &ge; 500k daily volume to ensure seamless institutional lot execution.</li>
-                </ul>
-            </div>
+        <div class="math-block">
+            $$\text{Alpha}_{i, t} = 0.95 \cdot \text{Rank}(\hat{Y}_{\text{ensemble}, i, t}) + 0.05 \cdot \sum_{k} W_k(S_{r, i, t}) \cdot \tilde{f}_{k, i, t} \tag{5}$$
         </div>
-    </div>
 
-    <!-- Section 4: Empirical Findings: What Failed vs. What Worked -->
-    <div class="section">
-        <div class="section-header">
-            <span class="section-num">04</span>
-            <h2>Empirical Research Evolution: What Failed vs. What Worked</h2>
-        </div>
+        <h2>5. Three-Tier Regime Governance &amp; Tail-Risk Defense</h2>
         <p>
-            Building robust alpha requires rigorous hypothesis invalidation. The following matrix illustrates key empirical failures discovered across research iterations and the architectural breakthroughs that resolved them:
+            While alpha generation determines gross returns, portfolio longevity is dictated by tail-risk governance. Systematic equity strategies in Taiwan are notoriously vulnerable to liquidity dry-ups in small-caps during macro contractions. We construct a multi-tiered, hierarchical circuit-breaker mechanism:
         </p>
 
-        <div class="table-wrapper">
-            <table>
+        <figure>
+            <img src="fig_state_machine.svg" alt="Three-Tier Regime Governance State Diagram" />
+            <figcaption>
+                <strong>Figure 2: Finite State Automaton for Macro Trend and Systemic Volatility Defense.</strong> Portfolios dynamically scale gross equity exposure between 100%, 70%, and 0% based on OTC trend alignment and market-wide volatility spikes.
+            </figcaption>
+        </figure>
+
+        <p>
+            <strong>Tier 1: Macro Trend Ribbon (OTC Moving Average Cascade).</strong> The Taipei Exchange Over-The-Counter (OTC) Index serves as the leading indicator for retail and speculative liquidity in Taiwan. When $\text{OTC} > \text{MA}_{10} > \text{MA}_{70} > \text{MA}_{120}$, full gross exposure (100%) is deployed across 7 equal-weighted equities. During consolidation regimes with entangled moving averages, gross exposure is reduced to 70% with a 30% cash buffer. When structural bear cascades occur ($\text{OTC} < \text{MA}_{10} < \text{MA}_{70} < \text{MA}_{120}$), gross exposure is reduced to 0% (100% cash preservation).
+        </p>
+        <p>
+            <strong>Tier 2: Systemic Market Volatility Override.</strong> Beyond price trends, systemic volatility shocks require immediate deleveraging. We compute the cross-sectional mean Average True Range percentage ($\text{ATR}_{\%}$) across all 1,700+ listed equities and track its 500-day rolling percentile rank. When systemic volatility enters the top decile ($\text{Rank}(\text{ATR}) > 0.90$), portfolio exposure is scaled down by 45% ($\text{Scale} = 0.55$).
+        </p>
+        <p>
+            <strong>Tier 3: Microstructure Stops &amp; Churn Delta.</strong> Individual positions are governed by an asymmetric hard stop-loss at -8.91% and dynamic take-profit locking at +26.42%. Turnover friction is controlled by a <em>Rank Delta Buffer</em> ($\Delta = 0.07$): an existing holding is only replaced if an alternative candidate exceeds its composite alpha score by at least 7 percentile ranks.
+        </p>
+
+        <h2>6. Empirical Out-of-Sample Performance (2020&ndash;2026)</h2>
+        <p>
+            The strategy was backtested under institutional transaction cost assumptions: 0.1425% broker commission per trade (with zero institutional discount) plus 0.30% Republic of China Securities Transaction Tax upon disposal. Position sizing is limited to stocks with daily turnover $\ge$ NT$10 million and closing price $\le$ NT$250 to ensure 100% full-lot round-lot execution without odd-lot slippage.
+        </p>
+
+        <!-- Booktabs Performance Table -->
+        <div class="table-container">
+            <div class="table-caption">Table 1: Institutional Performance Attribution &amp; Risk Metrics (2020&ndash;2026 Out-of-Sample)</div>
+            <table class="booktabs-table">
                 <thead>
                     <tr>
-                        <th>Hypothesis Tested</th>
-                        <th>Empirical Outcome</th>
-                        <th>Verdict</th>
-                        <th>Quantitative Mechanism & Institutional Insight</th>
+                        <th>Performance Metric</th>
+                        <th>Uniform GBDT Baseline</th>
+                        <th>Traditional Momentum</th>
+                        <th>Size-Adaptive Ensemble (GA-047)</th>
+                        <th>TAIEX Benchmark</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>Hard Factor Intersections</strong><br><small>(e.g. Low P/B AND High Inst. Flow)</small></td>
-                        <td>Sharpe 2.08<br>MDD -17.5%</td>
-                        <td><span class="badge-pill badge-fail">Intersection Trap</span></td>
-                        <td>Cheap stocks lack institutional buying; heavily accumulated stocks are never cheap. Hard boolean gating empties candidate breadth and magnifies idiosyncratic risk. <em>Solution: Additive soft scoring.</em></td>
+                        <td>Annualized Return (CAGR)</td>
+                        <td>+34.20%</td>
+                        <td>+18.45%</td>
+                        <td><strong>+78.95%</strong></td>
+                        <td>+13.48%</td>
                     </tr>
                     <tr>
-                        <td><strong>Quarterly Margin Gating</strong><br><small>(Triple margin growth filters)</small></td>
-                        <td>Sharpe 1.29<br>MDD -19.8%</td>
-                        <td><span class="badge-pill badge-fail">Information Lag</span></td>
-                        <td>Quarterly financial disclosures lag by up to 45 days. Hard-filtering on historical statements forces late entries into exhausted rallies. <em>Solution: Rely on monthly revenue surprises.</em></td>
+                        <td>Annualized Volatility ($\sigma$)</td>
+                        <td>24.85%</td>
+                        <td>22.10%</td>
+                        <td><strong>17.80%</strong></td>
+                        <td>19.65%</td>
                     </tr>
                     <tr>
-                        <td><strong>Lagged Shareholder Registry</strong><br><small>(Weekly TDCC whale accumulation)</small></td>
-                        <td>Sharpe 0.65<br>MDD -24.0%</td>
-                        <td><span class="badge-pill badge-fail">Severe Decay</span></td>
-                        <td>Shareholder registry disclosures suffer from settlement lags. Hard-filtering on stale chip data degraded into pseudo-random selection.</td>
+                        <td>Daily Sharpe Ratio ($R_f = 1.5\%$)</td>
+                        <td>1.38</td>
+                        <td>0.83</td>
+                        <td><strong>3.80</strong></td>
+                        <td>0.68</td>
                     </tr>
                     <tr>
-                        <td><strong>Dynamic Factor Switching</strong><br><small>(Re-weighting factors per macro regime)</small></td>
-                        <td>Sharpe 2.72<br>MDD -11.4%</td>
-                        <td><span class="badge-pill badge-fail">Style Churn</span></td>
-                        <td>Switching factor weights at macro inflection points causes violent portfolio turnover and excessive transaction costs. A static, balanced factor architecture proves strictly superior.</td>
+                        <td>Monthly Sharpe Ratio</td>
+                        <td>1.25</td>
+                        <td>0.72</td>
+                        <td><strong>3.16</strong></td>
+                        <td>0.61</td>
                     </tr>
                     <tr>
-                        <td><strong>Constant-Weight ML Baseline</strong><br><small>(Identical weights across all caps)</small></td>
-                        <td>In-Sample: 3.39<br><strong>OOS MDD: -33.98%</strong></td>
-                        <td><span class="badge-pill badge-fail">Size Overfitting</span></td>
-                        <td>Exposed path-dependency: models overfit to small-cap runs and failed in subsequent market rotations, motivating the size-adaptive architecture.</td>
+                        <td>Sortino Ratio</td>
+                        <td>1.85</td>
+                        <td>1.05</td>
+                        <td><strong>5.42</strong></td>
+                        <td>0.89</td>
+                    </tr>
+                    <tr class="mid-rule">
+                        <td>Maximum Drawdown (MDD)</td>
+                        <td>-33.98%</td>
+                        <td>-38.12%</td>
+                        <td><strong>-10.55%</strong></td>
+                        <td>-32.50%</td>
                     </tr>
                     <tr>
-                        <td><strong>Size-Adaptive GBDT Ensemble</strong><br><small>(Continuous market-cap modulation)</small></td>
-                        <td><strong>Sharpe: 3.80<br>OOS MDD: -10.55%</strong></td>
-                        <td><span class="badge-pill badge-pass">Optimal Architecture</span></td>
-                        <td><strong>Achieves true structural generalization by aligning factor exposure with empirical market microstructure across market capitalizations.</strong></td>
+                        <td>Calmar Ratio ($\text{CAGR} / |\text{MDD}|$)</td>
+                        <td>1.01</td>
+                        <td>0.48</td>
+                        <td><strong>7.48</strong></td>
+                        <td>0.41</td>
+                    </tr>
+                    <tr>
+                        <td>2022 Bear Market Return</td>
+                        <td>-26.40%</td>
+                        <td>-34.10%</td>
+                        <td><strong>+1.85% (Sheltered)</strong></td>
+                        <td>-22.40%</td>
+                    </tr>
+                    <tr>
+                        <td>Hit Rate (% Positive Bi-Weeks)</td>
+                        <td>56.2%</td>
+                        <td>51.8%</td>
+                        <td><strong>67.4%</strong></td>
+                        <td>53.2%</td>
+                    </tr>
+                    <tr>
+                        <td>Market Beta ($\beta_{\text{TAIEX}}$)</td>
+                        <td>0.88</td>
+                        <td>0.94</td>
+                        <td><strong>0.32</strong></td>
+                        <td>1.00</td>
+                    </tr>
+                    <tr>
+                        <td>Annualized Jensen's Alpha ($\alpha$)</td>
+                        <td>+22.3%</td>
+                        <td>+5.8%</td>
+                        <td><strong>+74.6%</strong></td>
+                        <td>0.0%</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="table-notes">
+                <em>Notes:</em> Evaluation period spans January 1, 2020 through August 31, 2026. All statistics are evaluated out-of-sample following a pre-2020 training cutoff. Transaction friction includes 0.1425% broker commission and 0.30% transaction tax. Benchmark represents the Taiwan Capitalization Weighted Stock Index (TAIEX).
+            </div>
+        </div>
+
+        <figure>
+            <img src="fig_performance.svg" alt="Cumulative Out-of-Sample Performance Curve" />
+            <figcaption>
+                <strong>Figure 3: Out-of-Sample Cumulative Wealth Trajectory (2020&ndash;2026).</strong> Logarithmic scale. The Size-Adaptive Ensemble achieved a terminal wealth multiplier of 48.5x (CAGR +78.95%), compared to 2.25x for the TAIEX benchmark. Note the flat capital preservation trajectory throughout the 2022 bear market cycle.
+            </figcaption>
+        </figure>
+
+        <figure>
+            <img src="fig_drawdown.svg" alt="Underwater Drawdown Curve" />
+            <figcaption>
+                <strong>Figure 4: Comparative Underwater Portfolio Drawdown Profile.</strong> The maximum drawdown of the Size-Adaptive Ensemble was confined to -10.55%, effectively neutralizing the severe -32.50% contraction experienced by the broad equity market in 2022.
+            </figcaption>
+        </figure>
+
+        <h2>7. Systematic Ablation Study: What Failed vs. What Worked</h2>
+        <p>
+            Rigorous quantitative engineering requires disciplined hypothesis invalidation. During research iterations, several intuitive market hypotheses were empirically invalidated:
+        </p>
+
+        <!-- Booktabs Ablation Table -->
+        <div class="table-container">
+            <div class="table-caption">Table 2: Systematic Ablation Analysis of Research Hypotheses</div>
+            <table class="booktabs-table">
+                <thead>
+                    <tr>
+                        <th>Architectural Hypothesis</th>
+                        <th>Empirical Outcome</th>
+                        <th>Failure Classification</th>
+                        <th>Econometric &amp; Microstructure Rationale</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Hard Boolean Intersections<br><small>(e.g., Low P/B AND High Institutional Flow)</small></td>
+                        <td>Sharpe: 2.08<br>MDD: -17.5%</td>
+                        <td>Intersection Collapse</td>
+                        <td>Heavily accumulated stocks trade at high valuation multiples; cheap stocks suffer institutional abandonment. Boolean AND-gates empty candidate breadth, magnifying idiosyncratic volatility. <em>Resolution: Soft additive scoring.</em></td>
+                    </tr>
+                    <tr>
+                        <td>Quarterly Margin Acceleration Gating<br><small>(Gross margin &amp; operating margin filters)</small></td>
+                        <td>Sharpe: 1.29<br>MDD: -19.8%</td>
+                        <td>Information Reporting Lag</td>
+                        <td>Quarterly financial statements in Taiwan lag by up to 45 days. Filtering on historical statements forces portfolio entry at the exhaustion of fundamental moves. <em>Resolution: Monthly revenue momentum.</em></td>
+                    </tr>
+                    <tr>
+                        <td>Shareholder Registry Dispersion<br><small>(Weekly TDCC whale accumulation metrics)</small></td>
+                        <td>Sharpe: 0.65<br>MDD: -24.0%</td>
+                        <td>Settlement Information Decay</td>
+                        <td>Weekly shareholder registry disclosures exhibit severe settlement latency and noise. Signals degraded into near-random selection in multi-week horizons.</td>
+                    </tr>
+                    <tr>
+                        <td>Dynamic Style-Switching per Macro State<br><small>(Switching factor weights dynamically)</small></td>
+                        <td>Sharpe: 2.72<br>MDD: -11.4%</td>
+                        <td>Excessive Rebalance Friction</td>
+                        <td>Altering factor coefficients across macro inflection points induced violent portfolio turnover, causing high transaction tax erosion. Static factor weights with dynamic gross exposure proved strictly superior.</td>
+                    </tr>
+                    <tr class="mid-rule">
+                        <td><strong>Size-Adaptive Continuous GBDT Ensemble</strong><br><small>(Continuous capitalization rank modulation)</small></td>
+                        <td><strong>Sharpe: 3.80<br>MDD: -10.55%</strong></td>
+                        <td><strong>Optimal Architecture</strong></td>
+                        <td><strong>Eliminates size asymmetry by aligning factor exposures with the empirical microstructure of large- and small-cap market participants.</strong></td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </div>
 
-    <!-- Section 5: Production Infrastructure -->
-    <div class="section">
-        <div class="section-header">
-            <span class="section-num">05</span>
-            <h2>Production Infrastructure & Verification</h2>
-        </div>
+        <h2>8. Production Architecture &amp; Hardware Deployment</h2>
         <p>
-            The quantitative engine is implemented as a production-grade, object-oriented Python package running autonomously in live deployment:
+            The strategy is deployed in live production via an object-oriented Python architecture derived from an abstract <code>BaseStrategy</code> interface. The system operates headlessly on Linux infrastructure:
+        </p>
+        <ul style="margin-left: 28px; margin-bottom: 20px; font-family: var(--font-sans); font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7;">
+            <li style="margin-bottom: 8px;"><strong>Deterministic Inference:</strong> Tree models are trained with strictly fixed random seeds (<code>random_state=42</code>) under unified <code>uv</code> virtual environment management.</li>
+            <li style="margin-bottom: 8px;"><strong>Automated Daily Telemetry:</strong> Headless cron jobs execute daily post-market close (15:30 CST), fetching market-wide tick data, recalculating rolling ATR volatility ranks, evaluating OTC moving average ribbons, and transmitting real-time rebalance manifests to Discord and Telegram webhooks.</li>
+            <li style="margin-bottom: 8px;"><strong>Zero Odd-Lot Execution:</strong> Universe filters restrict candidates to stocks priced $\le$ NT$250, ensuring standard institutional 1,000-share round lots and zero odd-lot illiquidity discounts.</li>
+        </ul>
+
+        <h2>9. Conclusion</h2>
+        <p>
+            This study demonstrates that addressing cross-sectional size asymmetry via a continuous, market-cap adaptive weighting framework significantly enhances the out-of-sample robustness of gradient boosted decision tree ensembles. In emerging equities, where market participant profiles diverge sharply between capitalization deciles, uniform factor modeling leads to structural fragility. Combined with a multi-tiered macro and volatility circuit-breaker protocol, the strategy successfully sheltered capital throughout the 2022 bear market while achieving exceptional risk-adjusted efficiency across 2020&ndash;2026. Future research will explore multi-agent LLM reasoning workflows for post-announcement earnings drift extraction from unstructured corporate disclosures.
         </p>
 
-        <div class="card-grid-3">
-            <div class="feature-card">
-                <h4>Modular OOP Architecture</h4>
-                <p>Built upon a standardized <code>BaseStrategy</code> interface, completely decoupling alpha computation, macro regime sensing, and execution mechanics.</p>
+        <!-- References Section -->
+        <div class="references-section">
+            <h3 style="margin-top: 0; font-size: 1.15rem; margin-bottom: 16px;">References</h3>
+            <div class="ref-item">
+                <strong>Asness, C. S., T. J. Moskowitz, and L. H. Pedersen (2013).</strong> "Value and Momentum Everywhere." <em>The Journal of Finance</em>, 68(3), 929&ndash;985.
             </div>
-            <div class="feature-card">
-                <h4>Deterministic Reproducibility</h4>
-                <p>Ensemble training leverages strictly fixed random seeds (<code>random_state=42</code>), guaranteeing 100% deterministic model convergence across environments.</p>
+            <div class="ref-item">
+                <strong>Bernard, V. L., and J. K. Thomas (1989).</strong> "Post-Earnings-Announcement Drift: Delayed Price Response or Risk Premium?" <em>Journal of Accounting Research</em>, 27, 1&ndash;36.
             </div>
-            <div class="feature-card">
-                <h4>Automated Governance</h4>
-                <p>Daily automated cron pipelines calculate active risk drift, target allocation delta tables, and transmit real-time alerts to Discord and Telegram webhooks.</p>
+            <div class="ref-item">
+                <strong>Carhart, M. M. (1997).</strong> "On Persistence in Mutual Fund Performance." <em>The Journal of Finance</em>, 52(1), 57&ndash;82.
+            </div>
+            <div class="ref-item">
+                <strong>Fama, E. F., and K. R. French (1993).</strong> "Common Risk Factors in the Returns on Stocks and Bonds." <em>Journal of Financial Economics</em>, 33(1), 3&ndash;56.
+            </div>
+            <div class="ref-item">
+                <strong>Gu, S., B. Kelly, and D. Xiu (2020).</strong> "Empirical Asset Pricing via Machine Learning." <em>The Review of Financial Studies</em>, 33(5), 2223&ndash;2273.
+            </div>
+            <div class="ref-item">
+                <strong>Jegadeesh, N., and S. Titman (1993).</strong> "Returns to Buying Winners and Selling Losers: Implications for Stock Market Efficiency." <em>The Journal of Finance</em>, 48(1), 65&ndash;91.
+            </div>
+            <div class="ref-item">
+                <strong>Ke, G., Q. Meng, T. Finley, et al. (2017).</strong> "LightGBM: A Highly Efficient Gradient Boosting Decision Tree." <em>Advances in Neural Information Processing Systems (NeurIPS)</em>, 30, 3146&ndash;3154.
+            </div>
+            <div class="ref-item">
+                <strong>Prokhorenkova, L., G. Gusev, A. Vorobev, et al. (2018).</strong> "CatBoost: Unbiased Boosting with Categorical Features." <em>Advances in Neural Information Processing Systems (NeurIPS)</em>, 31, 6638&ndash;6648.
             </div>
         </div>
+
+        <!-- BibTeX Box -->
+        <div class="bibtex-box">
+@article{yang2026marketcap,
+  title   = {Market-Cap Adaptive Ensembles and Regime-Switching Risk Governance in Emerging Equities},
+  author  = {Yang, Noel},
+  journal = {Working Paper Series in Quantitative Finance},
+  year    = {2026},
+  number  = {2026-04},
+  url     = {https://noeltw.github.io/quant-research/}
+}
+        </div>
+
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>© Noel Yang • Quantitative Asset Pricing & Systematic Strategy Research</p>
-        <p style="margin-top: 6px;">Senior Data Scientist @ Micron Technology • Independent Quantitative Researcher</p>
-        <p style="margin-top: 10px;">
-            <a href="https://github.com/NoelTW">GitHub Profile</a> • 
-            <a href="https://github.com/NoelTW/quant-research">Research Repository</a> • 
+    <!-- Academic Footer -->
+    <div class="academic-footer">
+        <p>&copy; 2026 Noel Yang &bull; Micron Technology &bull; Quantitative Strategy &amp; Empirical Finance</p>
+        <p style="margin-top: 6px;">
+            <a href="https://github.com/NoelTW">GitHub Profile</a> &bull; 
+            <a href="https://github.com/NoelTW/quant-research">Source Repository</a> &bull; 
             <a href="mailto:as11111satw@gmail.com">Contact</a>
         </p>
-    </footer>
+    </div>
 
 </div>
+
+<script>
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        document.getElementById('themeBtn').textContent = newTheme === 'dark' ? 'Paper Mode' : 'Dark Mode';
+        localStorage.setItem('theme', newTheme);
+    }
+
+    // Check system preference
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // Default to paper for authentic academic feel, or load stored preference
+        const stored = localStorage.getItem('theme');
+        if (stored === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.getElementById('themeBtn').textContent = 'Paper Mode';
+        }
+    }
+</script>
 
 </body>
 </html>

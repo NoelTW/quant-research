@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 240" width="100%" height="240">
+  <rect width="760" height="240" fill="#ffffff" rx="4"/>
+  
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <!-- Input Signals Box -->
+  <rect x="25" y="50" width="160" height="140" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.5" rx="6"/>
+  <text x="105" y="75" text-anchor="middle" font-family="-apple-system, Inter, sans-serif" font-size="12" font-weight="700" fill="#0f172a">Market Telemetry</text>
+  <line x1="40" y1="85" x2="170" y2="85" stroke="#cbd5e1"/>
+  <text x="40" y="105" font-family="-apple-system, Inter, sans-serif" font-size="11" fill="#334155">• OTC Moving Averages</text>
+  <text x="48" y="122" font-family="-apple-system, Inter, sans-serif" font-size="10.5" fill="#64748b">(MA10, MA70, MA120)</text>
+  <text x="40" y="145" font-family="-apple-system, Inter, sans-serif" font-size="11" fill="#334155">• 500-Day Rolling ATR%</text>
+  <text x="48" y="162" font-family="-apple-system, Inter, sans-serif" font-size="10.5" fill="#64748b">(Market-Wide Volatility)</text>
+
+  <!-- Transitions to States -->
+  <line x1="185" y1="85" x2="250" y2="55" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="185" y1="120" x2="250" y2="120" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="185" y1="155" x2="250" y2="185" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- State 1: Bull -->
+  <rect x="255" y="25" width="220" height="60" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5" rx="6"/>
+  <text x="270" y="48" font-family="-apple-system, Inter, sans-serif" font-size="12" font-weight="700" fill="#065f46">Tier 1: Bullish Trend State</text>
+  <text x="270" y="68" font-family="-apple-system, Inter, sans-serif" font-size="11" fill="#047857">OTC > MA10 > MA70 > MA120</text>
+
+  <!-- State 2: Neutral -->
+  <rect x="255" y="90" width="220" height="60" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5" rx="6"/>
+  <text x="270" y="113" font-family="-apple-system, Inter, sans-serif" font-size="12" font-weight="700" fill="#334155">Tier 1: Mixed Consolidation</text>
+  <text x="270" y="133" font-family="-apple-system, Inter, sans-serif" font-size="11" fill="#64748b">Moving Averages Disentangled</text>
+
+  <!-- State 3: Bear -->
+  <rect x="255" y="155" width="220" height="60" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5" rx="6"/>
+  <text x="270" y="178" font-family="-apple-system, Inter, sans-serif" font-size="12" font-weight="700" fill="#991b1b">Tier 1: Structural Bear State</text>
+  <text x="270" y="198" font-family="-apple-system, Inter, sans-serif" font-size="11" fill="#b91c1c">OTC &lt; MA10 &lt; MA70 &lt; MA120</text>
+
+  <!-- Arrows to Portfolio Allocations -->
+  <line x1="475" y1="55" x2="525" y2="55" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="475" y1="120" x2="525" y2="120" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="475" y1="185" x2="525" y2="185" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Target Allocations -->
+  <rect x="530" y="30" width="205" height="50" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" rx="6"/>
+  <text x="545" y="52" font-family="-apple-system, Inter, sans-serif" font-size="11.5" font-weight="700" fill="#047857">100% Gross Exposure</text>
+  <text x="545" y="68" font-family="-apple-system, Inter, sans-serif" font-size="10.5" fill="#64748b">Full 7-equity allocation</text>
+
+  <rect x="530" y="95" width="205" height="50" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" rx="6"/>
+  <text x="545" y="117" font-family="-apple-system, Inter, sans-serif" font-size="11.5" font-weight="700" fill="#d97706">70% Gross / 30% Cash</text>
+  <text x="545" y="133" font-family="-apple-system, Inter, sans-serif" font-size="10.5" fill="#64748b">Defensive cash buffer</text>
+
+  <rect x="530" y="160" width="205" height="50" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" rx="6"/>
+  <text x="545" y="182" font-family="-apple-system, Inter, sans-serif" font-size="11.5" font-weight="700" fill="#dc2626">0% Exposure (100% Cash)</text>
+  <text x="545" y="198" font-family="-apple-system, Inter, sans-serif" font-size="10.5" fill="#64748b">Capital preservation lock</text>
+</svg>

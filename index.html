@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market-Cap Adaptive Ensembles and Regime-Switching Risk Governance in Emerging Equities | Noel Yang</title>
-    <meta name="description" content="Working Paper: Empirical Asset Pricing and Systematic Alpha in Emerging Markets through Market-Cap Adaptive GBDT Ensembles and Multi-Tier Macro Governance.">
+    <title>Purged Walk-Forward Ensembles, Kyle's Lambda Impact &amp; Cross-Market Regime Governance | Noel Yang</title>
+    <meta name="description" content="Working Paper 2026-11 (Post-Audit Edition): Dual-Engine Systematic Alpha across Taiwan Mid-Cap Equities (Titan-4S) and US Macro Volatility Gearboxes (TQQQ-007 M14-Apex).">
     <meta name="author" content="Noel Yang">
     
     <!-- Google Fonts: Newsreader (Academic Serif), Inter (Sans), JetBrains Mono (Code/Math) -->
@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
     
-    <!-- KaTeX for pristine mathematical typesetting -->
+    <!-- KaTeX for mathematical typesetting -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '\\[', right: '\\]', display: true}, {left: '\\(', right: '\\)', display: false}, {left: '$', right: '$', display: false}]});"></script>
@@ -63,7 +63,7 @@
         }
 
         .paper-container {
-            max-width: 900px;
+            max-width: 920px;
             margin: 0 auto;
             background: var(--bg-surface);
             border: 1px solid var(--border-light);
@@ -71,7 +71,6 @@
             padding: 72px 80px;
         }
 
-        /* Top Bar & Metadata */
         .academic-topbar {
             display: flex;
             justify-content: space-between;
@@ -98,7 +97,6 @@
         }
         .theme-toggle-btn:hover { border-color: var(--text-primary); }
 
-        /* Document Header */
         header {
             margin-bottom: 40px;
             text-align: center;
@@ -116,9 +114,9 @@
 
         h1.paper-title {
             font-family: var(--font-serif);
-            font-size: 2.35rem;
+            font-size: 2.2rem;
             font-weight: 600;
-            line-height: 1.25;
+            line-height: 1.26;
             color: var(--text-primary);
             margin-bottom: 24px;
             letter-spacing: -0.015em;
@@ -149,7 +147,6 @@
             margin-top: 8px;
         }
 
-        /* Abstract Box */
         .abstract-wrapper {
             margin: 40px auto;
             max-width: 760px;
@@ -188,7 +185,17 @@
 
         .keywords-block strong { color: var(--text-secondary); }
 
-        /* Typography & Content Sections */
+        .audit-callout {
+            margin: 28px 0;
+            padding: 16px 22px;
+            background: var(--bg-alt);
+            border-left: 4px solid var(--accent-primary);
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            line-height: 1.65;
+            color: var(--text-secondary);
+        }
+
         .prose {
             max-width: var(--max-w-prose);
             margin: 0 auto;
@@ -218,10 +225,10 @@
             text-align: justify;
         }
 
-        /* Booktabs Academic Table */
         .table-container {
             margin: 36px auto;
             width: 100%;
+            overflow-x: auto;
         }
 
         .table-caption {
@@ -236,7 +243,7 @@
             width: 100%;
             border-collapse: collapse;
             font-family: var(--font-sans);
-            font-size: 0.88rem;
+            font-size: 0.85rem;
             border-top: 2px solid var(--border-rule);
             border-bottom: 2px solid var(--border-rule);
         }
@@ -244,7 +251,7 @@
         .booktabs-table th {
             font-weight: 600;
             text-align: right;
-            padding: 10px 12px;
+            padding: 10px 10px;
             border-bottom: 1px solid var(--border-rule);
             color: var(--text-primary);
         }
@@ -255,7 +262,7 @@
         }
 
         .booktabs-table td {
-            padding: 9px 12px;
+            padding: 9px 10px;
             text-align: right;
             color: var(--text-secondary);
             border-bottom: 1px solid rgba(0, 0, 0, 0.04);
@@ -277,7 +284,6 @@
             line-height: 1.45;
         }
 
-        /* Figures */
         figure {
             margin: 40px auto;
             text-align: center;
@@ -298,11 +304,8 @@
             line-height: 1.5;
         }
 
-        figcaption strong {
-            color: var(--text-primary);
-        }
+        figcaption strong { color: var(--text-primary); }
 
-        /* Formal Mathematical Display */
         .math-block {
             margin: 24px 0;
             padding: 12px 20px;
@@ -312,7 +315,6 @@
             font-size: 1.05rem;
         }
 
-        /* Academic Reference List */
         .references-section {
             margin-top: 60px;
             border-top: 2px solid var(--border-rule);
@@ -331,7 +333,6 @@
 
         .ref-item strong { color: var(--text-primary); }
 
-        /* BibTeX Box */
         .bibtex-box {
             background: var(--bg-alt);
             border: 1px solid var(--border-light);
@@ -343,9 +344,9 @@
             overflow-x: auto;
             color: var(--text-secondary);
             line-height: 1.5;
+            white-space: pre;
         }
 
-        /* Footer */
         .academic-footer {
             margin-top: 64px;
             padding-top: 24px;
@@ -364,14 +365,8 @@
 
         @media (max-width: 768px) {
             .paper-container { padding: 36px 24px; }
-            h1.paper-title { font-size: 1.85rem; }
+            h1.paper-title { font-size: 1.75rem; }
             body { font-size: 1.05rem; padding: 12px; }
-        }
-
-        @media print {
-            body { background: #fff; color: #000; padding: 0; font-size: 10pt; }
-            .paper-container { border: none; box-shadow: none; padding: 0; max-width: 100%; }
-            .academic-topbar button, .academic-topbar a { display: none; }
         }
     </style>
 </head>
@@ -381,23 +376,23 @@
 
     <!-- Academic Running Header -->
     <div class="academic-topbar">
-        <div>Working Paper Series in Quantitative Finance · No. 2026-04</div>
+        <div>Working Paper Series in Quantitative Finance &middot; No. 2026-11 (Post-Audit Edition)</div>
         <div style="display: flex; gap: 12px; align-items: center;">
-            <a href="https://github.com/NoelTW" style="color: inherit; text-decoration: none;">← Author Profile</a>
+            <a href="https://github.com/NoelTW" style="color: inherit; text-decoration: none;">&larr; Author Profile</a>
             <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn">Dark Mode</button>
         </div>
     </div>
 
     <!-- Paper Header -->
     <header>
-        <div class="working-paper-series">SSRN Electronic Working Paper &bull; Computational Microstructure</div>
-        <h1 class="paper-title">Market-Cap Adaptive Ensembles and Regime-Switching Risk Governance in Emerging Equities</h1>
+        <div class="working-paper-series">Computational Market Microstructure &amp; Anti-Overfitting Systems</div>
+        <h1 class="paper-title">Purged Walk-Forward Ensembles, Kyle&rsquo;s Lambda Microstructure Impact, and Cross-Market Regime Governance: A Dual-Engine Quantitative Architecture</h1>
         
         <div class="author-block">
             <div class="author-name">Noel Yang</div>
-            <div class="author-affil">Senior Data Scientist, Micron Technology</div>
-            <div class="author-affil">Lead Researcher, Systematic Quantitative Systems</div>
-            <div class="paper-date">September 2026 (Revised & Extended Out-of-Sample Results)</div>
+            <div class="author-affil">Senior Data Scientist, Micron Technology (Singapore)</div>
+            <div class="author-affil">Lead Architect, Autonomous AI &amp; Systematic Quantitative Systems</div>
+            <div class="paper-date">November 2026 (Purged Walk-Forward &amp; Three-Phase Parallel-Universe Verified Edition)</div>
         </div>
     </header>
 
@@ -405,355 +400,313 @@
     <div class="abstract-wrapper">
         <div class="abstract-heading">Abstract</div>
         <p class="abstract-text">
-            Conventional multi-factor quantitative equity models in emerging markets frequently suffer from structural regime decay caused by the <em>Uniform Factor Assumption</em>&mdash;the premise that fundamental and technical factors exert identical cross-sectional predictive power irrespective of market capitalization. In this paper, we document substantial microstructure asymmetry between small-cap and large-cap equities in the Taiwan stock market and formulate an institutional-grade, market-cap adaptive quantitative framework. We construct a heterogeneous ensemble of gradient boosted decision trees (GBDT) comprising LightGBM, CatBoost, and XGBoost with dual objective functions, double-neutralized against 28 industry sectors and log market capitalization. Factor signals are continuously modulated via a size-adaptive weighting matrix that emphasizes institutional flow and borrow-recall squeezes for small-caps while transitioning toward valuation margins of safety (inverse P/B) for large-caps. Downside tail-risk is mitigated through a three-tier regime governance protocol combining OTC moving average trend ribbons, rolling 500-day market volatility gating, and execution turnover delta buffers. Calibrated strictly on pre-2020 data and verified over a 7-year blind out-of-sample window (2020&ndash;2026), the strategy generates an annualized compound return (CAGR) of <strong>+78.95%</strong>, a daily Sharpe ratio of <strong>3.80</strong>, and a maximum drawdown bounded at <strong>-10.55%</strong>, successfully preserving capital through the -32.5% bear market of 2022.
+            Machine learning equity strategies in emerging markets routinely exhibit inflated backtest Sharpe ratios due to three subtle sources of bias: overlapping forward-label leakage, illiquid small-cap execution assumptions, and rebalance-day calendar luck. In this revised study, we present a rigorously purged, dual-market quantitative architecture designed from first principles around <em>Cross-Jurisdiction Tax and Friction Asymmetry</em>. In Taiwan equities (where statutory disposal taxes impose ~0.395% round-trip friction), <strong>Engine I (<code>Titan-4S</code>)</strong> operates on a 3-week low-churn horizon across liquid mid-cap value-growth equities ($\text{Price} \le \text{NT\$}250$, $\text{ADV}_{20d} \ge \text{NT\$}30\text{M}$), combining a double-neutralized multi-task GBDT + left-tail crash risk ensemble with <em>Kyle&rsquo;s Lambda</em> volume-normalized institutional impact ($\overline{Q}_{3d}/\overline{V}_{20d}$) and structural ribbon hysteresis. In zero-stamp-tax US ETF markets, <strong>Engine II (<code>TQQQ-007 M14-Apex</code>)</strong> harvests NASDAQ-100 convex beta via an asymmetric 180-SMA hysteresis gate, a four-speed realized volatility gearbox, and a three-dimensional credit/duration/FX macro shield (<code>HYG/IEF</code>, <code>IEF/TLT</code>, <code>FXY</code> carry-unwind, and <code>CBOE VIX/VIX3M</code> term structure), sheltering bear-market capital in <code>SGOV</code> T-Bills. Across 132 multi-phase stress tests net of full commissions, taxes, and slippage, <code>Titan-4S</code> achieves an audited <strong>+53.08% full-cycle CAGR</strong> (<strong>+68.77% post-freeze OOS</strong>, <strong>2.34 Sharpe</strong>, <strong>-12.13% MDD</strong>, and <strong>+5.23% in the 2022 bear market</strong>), while <code>TQQQ-007</code> delivers a <strong>+55.10% CAGR</strong> (<strong>-29.88% MDD</strong> vs. -81.65% buy-and-hold).
         </p>
         <div class="keywords-block">
-            <strong>JEL Classification:</strong> G11 (Portfolio Management), G12 (Asset Pricing), C45 (Machine Learning &amp; Tree Ensembles), C53 (Financial Econometrics).<br>
-            <strong>Keywords:</strong> Heterogeneous GBDT Ensembles, Double Neutralization, Market Microstructure, Size Asymmetry, Regime-Switching, SUE Drift.
+            <strong>JEL Classification:</strong> G11 (Portfolio Choice), G12 (Asset Pricing), G14 (Market Microstructure), C45 (Machine Learning).<br>
+            <strong>Keywords:</strong> Purged Walk-Forward Validation, Kyle&rsquo;s Lambda Price Impact, Double Neutralization, Left-Tail Crash Head, Volatility Gearbox, Cross-Asset Credit Shield.
         </div>
     </div>
 
-    <!-- Main Text Prose -->
     <div class="prose">
 
-        <h2>1. Introduction &amp; Theoretical Motivation</h2>
+        <div class="audit-callout">
+            <strong>Anti-Overfitting Revision Note (EXP-026 &ndash; EXP-031):</strong> This edition supersedes our earlier <code>GA-047</code> draft by replacing single-split evaluation with purged walk-forward feature freezing, raising the minimum 20-day turnover floor 3&times; to <code>NT$30M</code>, testing all structural hypotheses across <strong>three staggered rebalance universes (<code>P0/P1/P2</code>)</strong> to eliminate weekday luck, and enforcing live production PSI drift monitoring (<code>Rank-Norm PSI = 0.0020</code>).
+        </div>
+
+        <h2>1. First-Principles Motivation: Tax &amp; Microstructure Asymmetry</h2>
         <p>
-            The cross-sectional predictability of stock returns has been extensively documented in financial literature, spanning value, momentum, and quality anomalies (Fama and French, 1993; Jegadeesh and Titman, 1993; Carhart, 1997). In recent years, non-linear machine learning architectures have demonstrated substantial gains over linear factor models in synthesizing multi-dimensional interaction terms (Gu, Kelly, and Xiu, 2020). However, the vast majority of machine learning factor models enforce a homogeneous feature mapping across the entire investment universe.
+            A foundational error in retail and academic quantitative design is deploying a single trading frequency across markets with radically different friction physics. In Taiwan (TWSE/TPEx), every equity disposal incurs a 0.30% statutory transaction tax alongside broker commissions (~0.395% round-trip), punishing high-turnover stat-arb while leaving liquid mid-cap equities ($\text{Price} \le \text{NT\$}250$) structurally under-owned by global passive benchmarks. Conversely, US-listed index ETFs trade at near-zero spread with 0% stamp tax and 0% capital gains tax for Singapore-domiciled investors, but exhibit violent left-tail volatility clustering during global liquidity tightenings.
         </p>
         <p>
-            In emerging equity markets characterized by mixed participant composition&mdash;such as Taiwan (TWSE / TPEx)&mdash;this uniform mapping is fundamentally flawed. Retail participants account for disproportionate trading volume in small- and micro-cap securities, creating persistent price momentum, retail sentiment cascades, and borrow-recall squeezes during mandatory general meeting recall windows. Conversely, large-cap equities are dominated by global institutional asset managers, benchmark tracking mandates, and stringent valuation boundaries.
-        </p>
-        <p>
-            Consequently, a multi-factor model enforcing static weights experiences severe cross-sectional drag: valuation factors applied to small-caps yield illiquid "value traps", whereas technical momentum applied to large-caps triggers purchases at the peak of institutional distribution. This study designs, formalizes, and validates a continuous, <strong>Size-Adaptive GBDT Architecture</strong> accompanied by a dynamic <strong>Three-Tier Macro Circuit Breaker</strong>.
+            By decomposing global equity exposure into two orthogonal engines&mdash;<strong>Engine I (<code>Titan-4S</code>)</strong> for cross-sectional fundamental/microstructure alpha in Taiwan mid-caps, and <strong>Engine II (<code>TQQQ-007 M14-Apex</code>)</strong> for macro-gated convex technology beta in the United States&mdash;each market is traded strictly at its optimal horizon and risk boundary.
         </p>
 
-        <h2>2. Market Microstructure &amp; Size Asymmetry</h2>
+        <h2>2. Engine I (<code>Titan-4S</code>): Kyle&rsquo;s Lambda Impact &amp; Multi-Task GBDTs</h2>
         <p>
-            To formalize the size asymmetry, we segment the universe of 1,700+ traded equities by their normalized market capitalization rank, denoted by $S_r \in [0, 1]$, where $S_r = 0$ corresponds to micro-capitalization and $S_r = 1$ denotes mega-capitalization.
-        </p>
-        <p>
-            Empirical factor analysis reveals that the information coefficient (IC) of institutional order flow (Foreign and Domestic Investment Trust net accumulation) and Securities Borrowing and Lending (SBL) recall signals scales inversely with firm capitalization. In contrast, valuation margins of safety (book-to-market and earnings-to-price ratios) exhibit monotonically increasing explanatory efficacy as capitalization grows. We formalize this continuous modulation through empirical weighting functions:
+            Conventional Taiwan factor models rank Foreign and Domestic Investment Trust net accumulation using raw share counts ($\overline{Q}_{3d}$). From first-principles dimensional analysis, raw share counts introduce a severe low-price float bias: 1,000 lots of a NT\$15 mega-float stock (NT\$15M, $&lt;1\%$ of daily volume) ranks above 400 lots of a NT\$180 mid-cap growth leader (NT\$72M, absorbing $25\%$ of daily volume). Grounded in <strong>Kyle (1985)</strong> price-impact theory ($\Delta P \propto Q / V$), we normalize 3-day institutional accumulation by 20-day average volume $\overline{V}_{20d}$, which is algebraically identical to net dollar flow divided by average dollar turnover:
         </p>
 
         <div class="math-block">
-            $$\begin{aligned}
-            W_{\text{chip}}(S_r) &= 0.30 \times (1.5 - S_r) \\
-            W_{\text{sbl}}(S_r)  &= 0.35 \times (1.5 - S_r) \\
-            W_{\text{val}}(S_r)  &= 1.20 \times (0.5 + S_r)
-            \end{aligned} \tag{1}$$
+            $$\text{Impact}_{\text{inst}, i, t} = \text{Rank}\!\left(\frac{\overline{Q}_{\text{foreign}, 3d, i, t}}{\overline{V}_{20d, i, t}}\right) + \text{Rank}\!\left(\frac{\overline{Q}_{\text{trust}, 3d, i, t}}{\overline{V}_{20d, i, t}}\right) \tag{1}$$
         </div>
 
         <figure>
-            <img src="fig_size_weights.svg" alt="Size-Adaptive Weighting Function W(Sr)" />
+            <img src="fig_size_weights.svg" alt="Microstructure Asymmetry and Continuous Weighting" />
             <figcaption>
-                <strong>Figure 1: Size-Adaptive Continuous Factor Weighting Functions.</strong> Institutional flow and borrow-recall squeeze multipliers scale downward as market capitalization increases ($S_r \to 1$), while valuation anchors scale upward, matching the underlying empirical microstructure of emerging equities.
+                <strong>Figure 1: Microstructure Asymmetry Across Capitalization Deciles.</strong> Institutional volume-impact signals and short-borrow recall dynamics dominate smaller-cap price discovery ($S_r \to 0$), whereas valuation margins of safety anchor larger-cap equities ($S_r \to 1$).
             </figcaption>
         </figure>
 
-        <h2>3. Feature Engineering &amp; Double Neutralization</h2>
         <p>
-            Our factor library comprises 31 continuous signals across three distinct categories: fundamental balance-sheet quality, technical momentum, and daily chip accumulation. Raw factor scores in emerging markets frequently suffer from heavy sector clustering (e.g., semiconductor dominance) and capitalization bias. To address collinearity, we implement cross-sectional <strong>Double Neutralization</strong>.
-        </p>
-        <p>
-            For each raw factor $f_{i, t}$ of asset $i$ on rebalance date $t$, we perform an ordinary least squares (OLS) regression against 28 sub-industry indicator variables and logarithmic market capitalization:
+            Across 83 raw fundamental, technical, and chip features, we apply cross-sectional <strong>Double Neutralization</strong> via OLS against 28 industry sub-sectors and log market capitalization before uniform rank mapping $\tilde{f}_{i,t} \in [0, 1]$:
         </p>
 
         <div class="math-block">
-            $$f_{i, t} = \alpha_t + \sum_{k=1}^{28} \beta_{k, t} \cdot \text{Sector}_{i, k} + \gamma_t \cdot \ln(\text{Cap}_{i, t}) + \epsilon_{i, t} \tag{2}$$
+            $$f_{i, t} = \alpha_t + \sum_{k=1}^{28} \beta_{k, t}\,\text{Sector}_{i, k} + \gamma_t \ln(\text{Cap}_{i, t}) + \epsilon_{i, t}, \qquad \tilde{f}_{i, t} = \frac{\text{Rank}(\epsilon_{i, t}) - 1}{N_t - 1} \tag{2}$$
         </div>
 
         <p>
-            The residual term $\epsilon_{i, t}$ represents the idiosyncratic factor component, purified of sector crowding and capitalization bias. We transform the residual via cross-sectional uniform rank standardization:
+            Rather than predicting expected return alone, <code>Titan-4S</code> combines a frozen, purged walk-forward GBDT ensemble (LightGBM, CatBoost, XGBoost across regression and top-quintile classification) with a dedicated <strong>Multi-Task Left-Tail Crash Head</strong> ($\hat{p}_{\text{crash}, i, t}$, calibrated Normalized Entropy $= 0.9644$) that explicitly penalizes fragile momentum names during choppy regimes, alongside a Post-Monthly-Revenue-Drift (PMRD) cash-flow breakout confirmation.
         </p>
 
-        <div class="math-block">
-            $$\tilde{f}_{i, t} = \frac{\text{Rank}(\epsilon_{i, t}) - 1}{N_t - 1} \in [0, 1] \tag{3}$$
-        </div>
-
-        <h2>4. Heterogeneous Multi-Model Ensemble Architecture</h2>
+        <h2>3. Engine II (<code>TQQQ-007 M14-Apex</code>): Macro Volatility Gearbox</h2>
         <p>
-            Rather than relying upon a singular predictive algorithm, our engine constructs a heterogeneous 6-model ensemble. The ensemble integrates three premier gradient boosted decision tree implementations: LightGBM (Ke et al., 2017), CatBoost (Prokhorenkova et al., 2018), and XGBoost.
+            Leveraged ETFs suffer catastrophic variance drain ($\approx -\frac{1}{2} L(L-1)\sigma^2 dt$) when held through high-volatility bear regimes, yet outperform unlevered indices dramatically during low-volatility expansions. <code>TQQQ-007</code> governs <code>TQQQ</code> / <code>SGOV</code> allocation via four coupled mechanisms:
         </p>
-        <p>
-            To prevent overfitting to outlier returns while preserving rank-ordering accuracy, each GBDT family is trained under two orthogonal objective paradigms:
-        </p>
-        <ol style="margin-left: 28px; margin-bottom: 20px; font-family: var(--font-sans); font-size: 0.95rem; color: var(--text-secondary);">
-            <li style="margin-bottom: 8px;"><strong>Continuous Regression ($\mathcal{L}_{\text{MSE}}$)</strong>: Predicting forward 4-week cross-sectional excess return over the equal-weighted market index.</li>
-            <li style="margin-bottom: 8px;"><strong>Binary Classification ($\mathcal{L}_{\text{BCE}}$)</strong>: Predicting the probability that an asset's forward excess return resides in the top 20th percentile.</li>
+        <ol style="margin-left: 28px; margin-bottom: 20px; font-family: var(--font-sans); font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7;">
+            <li style="margin-bottom: 8px;"><strong>Asymmetric 180-SMA Hysteresis &amp; Elastic Washout Guard:</strong> Strict bull entry requires $\text{QQQ} &gt; 1.01 \times \text{SMA}_{180}$ with controlled 20-day realized volatility, while an elastic non-rate-shock washout guard prevents premature whipsaws on shallow, deeply oversold ($\text{RSI}_5 \le 12$) liquidity sweeps (such as the August 2024 Yen-carry unwind bottom).</li>
+            <li style="margin-bottom: 8px;"><strong>Four-Speed Volatility Gearbox &amp; $\pm 15\%$ Tolerance Band:</strong> Dynamically modulates target leverage across calm ($\sigma_{20} \le 18\%$), dual-EMA trend boost, normal, and storm ($\sigma_{20} &gt; 28\%$) gears while suppressing micro-rebalance churn via a $\pm 15\%$ drift tolerance band.</li>
+            <li style="margin-bottom: 8px;"><strong>3D Credit / Rate-Shock / FX Carry Shield:</strong> Continuously monitors high-yield credit spreads (<code>HYG/IEF</code>), Treasury duration shocks (<code>IEF</code> / <code>TLT</code>), Yen carry-trade unwind impulses (<code>FXY</code>), and <code>CBOE VIX/VIX3M</code> term-structure inversion.</li>
+            <li style="margin-bottom: 8px;"><strong>Bear Capitulation &amp; Structural Divergence Scalpel:</strong> While 100% parked in <code>SGOV</code> T-Bills during bear regimes, bounded tactical entries capture verified panic reversals and $\text{RSI}_5$ higher-low divergences under a 2.0&times; ATR trailing stop and a 4-strike secular-bear circuit breaker.</li>
         </ol>
 
-        <p>
-            The composite ensemble alpha score $\hat{Y}_{\text{ensemble}}$ synthesizes cross-sectional model predictions:
-        </p>
-
-        <div class="math-block">
-            $$\hat{Y}_{\text{ensemble}} = \sum_{m \in \{\text{lgb}, \text{cat}, \text{xgb}\}} \left[ w_m^{\text{reg}} \cdot \tilde{y}_m^{\text{reg}} + w_m^{\text{cls}} \cdot \tilde{y}_m^{\text{cls}} \right] + w_{\text{trad}} \cdot \tilde{S}_{\text{trad}} \tag{4}$$
-        </div>
-
-        <p>
-            Where $\tilde{y}$ denotes uniform percentile ranks and model weights $\{w\}$ were fixed on pre-2020 training observations and held strictly constant throughout out-of-sample evaluation. The final stock selection metric combines the ensemble prediction with the size-adaptive factor boost:
-        </p>
-
-        <div class="math-block">
-            $$\text{Alpha}_{i, t} = 0.95 \cdot \text{Rank}(\hat{Y}_{\text{ensemble}, i, t}) + 0.05 \cdot \sum_{k} W_k(S_{r, i, t}) \cdot \tilde{f}_{k, i, t} \tag{5}$$
-        </div>
-
-        <h2>5. Three-Tier Regime Governance &amp; Tail-Risk Defense</h2>
-        <p>
-            While alpha generation determines gross returns, portfolio longevity is dictated by tail-risk governance. Systematic equity strategies in Taiwan are notoriously vulnerable to liquidity dry-ups in small-caps during macro contractions. We construct a multi-tiered, hierarchical circuit-breaker mechanism:
-        </p>
-
         <figure>
-            <img src="fig_state_machine.svg" alt="Three-Tier Regime Governance State Diagram" />
+            <img src="fig_state_machine.svg" alt="Cross-Market Regime Governance State Automaton" />
             <figcaption>
-                <strong>Figure 2: Finite State Automaton for Macro Trend and Systemic Volatility Defense.</strong> Portfolios dynamically scale gross equity exposure between 100%, 70%, and 0% based on OTC trend alignment and market-wide volatility spikes.
+                <strong>Figure 2: Cross-Market Regime &amp; Volatility Governance State Automaton.</strong> Both engines enforce deterministic exposure step-downs and 100% cash / T-Bill preservation locks during structural bear cascades.
             </figcaption>
         </figure>
 
+        <h2>4. Empirical Out-of-Sample &amp; Multi-Phase Results</h2>
         <p>
-            <strong>Tier 1: Macro Trend Ribbon (OTC Moving Average Cascade).</strong> The Taipei Exchange Over-The-Counter (OTC) Index serves as the leading indicator for retail and speculative liquidity in Taiwan. When $\text{OTC} > \text{MA}_{10} > \text{MA}_{70} > \text{MA}_{120}$, full gross exposure (100%) is deployed across 7 equal-weighted equities. During consolidation regimes with entangled moving averages, gross exposure is reduced to 70% with a 30% cash buffer. When structural bear cascades occur ($\text{OTC} < \text{MA}_{10} < \text{MA}_{70} < \text{MA}_{120}$), gross exposure is reduced to 0% (100% cash preservation).
-        </p>
-        <p>
-            <strong>Tier 2: Systemic Market Volatility Override.</strong> Beyond price trends, systemic volatility shocks require immediate deleveraging. We compute the cross-sectional mean Average True Range percentage ($\text{ATR}_{\%}$) across all 1,700+ listed equities and track its 500-day rolling percentile rank. When systemic volatility enters the top decile ($\text{Rank}(\text{ATR}) > 0.90$), portfolio exposure is scaled down by 45% ($\text{Scale} = 0.55$).
-        </p>
-        <p>
-            <strong>Tier 3: Microstructure Stops &amp; Churn Delta.</strong> Individual positions are governed by an asymmetric hard stop-loss at -8.91% and dynamic take-profit locking at +26.42%. Turnover friction is controlled by a <em>Rank Delta Buffer</em> ($\Delta = 0.07$): an existing holding is only replaced if an alternative candidate exceeds its composite alpha score by at least 7 percentile ranks.
+            All Taiwan simulations deduct full 0.1425% broker commission and 0.30% disposal tax, enforce $\text{ADV}_{20d} \ge \text{NT\$}30\text{M}$ and $\text{Price} \le \text{NT\$}250$ (`4` equal-weighted holdings, 3-week rebalance, rank-8 retention buffer), and evaluate across all three staggered rebalance phases (<code>P0</code>, <code>P1</code>, <code>P2</code>). All US simulations enforce next-close execution (`D+1`), $\pm 15\%$ tolerance-band rebalancing, and `D+2` execution-delay stress tests.
         </p>
 
-        <h2>6. Empirical Out-of-Sample Performance (2020&ndash;2026)</h2>
-        <p>
-            The strategy was backtested under institutional transaction cost assumptions: 0.1425% broker commission per trade (with zero institutional discount) plus 0.30% Republic of China Securities Transaction Tax upon disposal. Position sizing is limited to stocks with daily turnover $\ge$ NT$10 million and closing price $\le$ NT$250 to ensure 100% full-lot round-lot execution without odd-lot slippage.
-        </p>
-
-        <!-- Booktabs Performance Table -->
         <div class="table-container">
-            <div class="table-caption">Table 1: Institutional Performance Attribution &amp; Risk Metrics (2020&ndash;2026 Out-of-Sample)</div>
+            <div class="table-caption">Table 1: Engine I (Taiwan <code>Titan-4S</code>) Audited Performance &amp; Staggered 3-Phase Robustness</div>
             <table class="booktabs-table">
                 <thead>
                     <tr>
-                        <th>Performance Metric</th>
-                        <th>Uniform GBDT Baseline</th>
-                        <th>Traditional Momentum</th>
-                        <th>Size-Adaptive Ensemble (GA-047)</th>
-                        <th>TAIEX Benchmark</th>
+                        <th>Metric</th>
+                        <th>Double-Ortho Linear</th>
+                        <th>High-Price (&gt;NT$250) AI</th>
+                        <th><code>Titan-4S</code> (Raw Flow)</th>
+                        <th><code>Titan-4S</code> (Kyle&rsquo;s $\lambda$)</th>
+                        <th>TAIEX Index</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Annualized Return (CAGR)</td>
-                        <td>+34.20%</td>
-                        <td>+18.45%</td>
-                        <td><strong>+78.95%</strong></td>
+                        <td>Full-Cycle Audited CAGR</td>
+                        <td>+23.83%</td>
+                        <td>+9.71%</td>
+                        <td>+51.91%</td>
+                        <td><strong>+53.08%</strong></td>
                         <td>+13.48%</td>
                     </tr>
                     <tr>
-                        <td>Annualized Volatility ($\sigma$)</td>
-                        <td>24.85%</td>
-                        <td>22.10%</td>
-                        <td><strong>17.80%</strong></td>
-                        <td>19.65%</td>
+                        <td>Post-Freeze OOS CAGR (2024&ndash;2026)</td>
+                        <td>+30.15%</td>
+                        <td>+45.63%</td>
+                        <td>+66.70%</td>
+                        <td><strong>+68.77%</strong></td>
+                        <td>+21.40%</td>
                     </tr>
                     <tr>
-                        <td>Daily Sharpe Ratio ($R_f = 1.5\%$)</td>
-                        <td>1.38</td>
-                        <td>0.83</td>
-                        <td><strong>3.80</strong></td>
+                        <td>3-Phase (<code>P0/P1/P2</code>) Mean CAGR</td>
+                        <td>+19.86%</td>
+                        <td>+14.57%</td>
+                        <td>+40.68%</td>
+                        <td><strong>+42.17%</strong></td>
+                        <td>+13.48%</td>
+                    </tr>
+                    <tr class="mid-rule">
+                        <td>Daily Sharpe Ratio</td>
+                        <td>1.15</td>
+                        <td>0.43</td>
+                        <td>2.28</td>
+                        <td><strong>2.34</strong></td>
                         <td>0.68</td>
                     </tr>
                     <tr>
-                        <td>Monthly Sharpe Ratio</td>
-                        <td>1.25</td>
-                        <td>0.72</td>
-                        <td><strong>3.16</strong></td>
-                        <td>0.61</td>
-                    </tr>
-                    <tr>
-                        <td>Sortino Ratio</td>
-                        <td>1.85</td>
-                        <td>1.05</td>
-                        <td><strong>5.42</strong></td>
-                        <td>0.89</td>
-                    </tr>
-                    <tr class="mid-rule">
-                        <td>Maximum Drawdown (MDD)</td>
-                        <td>-33.98%</td>
-                        <td>-38.12%</td>
-                        <td><strong>-10.55%</strong></td>
+                        <td>Maximum Drawdown (Full / OOS)</td>
+                        <td>-26.63%</td>
+                        <td>-64.12%</td>
+                        <td><strong>-11.80%</strong> / -10.87%</td>
+                        <td>-12.13% / <strong>-10.75%</strong></td>
                         <td>-32.50%</td>
                     </tr>
                     <tr>
-                        <td>Calmar Ratio ($\text{CAGR} / |\text{MDD}|$)</td>
-                        <td>1.01</td>
-                        <td>0.48</td>
-                        <td><strong>7.48</strong></td>
+                        <td>Calmar Ratio ($\text{CAGR}/|\text{MDD}|$)</td>
+                        <td>0.89</td>
+                        <td>0.15</td>
+                        <td><strong>4.40</strong></td>
+                        <td><strong>4.38</strong></td>
                         <td>0.41</td>
                     </tr>
                     <tr>
-                        <td>2022 Bear Market Return</td>
-                        <td>-26.40%</td>
-                        <td>-34.10%</td>
-                        <td><strong>+1.85% (Sheltered)</strong></td>
+                        <td>2022 Tightening Bear Market</td>
+                        <td>-18.24%</td>
+                        <td>-46.33%</td>
+                        <td>+5.06%</td>
+                        <td><strong>+5.23% (Cash Lock)</strong></td>
                         <td>-22.40%</td>
-                    </tr>
-                    <tr>
-                        <td>Hit Rate (% Positive Bi-Weeks)</td>
-                        <td>56.2%</td>
-                        <td>51.8%</td>
-                        <td><strong>67.4%</strong></td>
-                        <td>53.2%</td>
-                    </tr>
-                    <tr>
-                        <td>Market Beta ($\beta_{\text{TAIEX}}$)</td>
-                        <td>0.88</td>
-                        <td>0.94</td>
-                        <td><strong>0.32</strong></td>
-                        <td>1.00</td>
-                    </tr>
-                    <tr>
-                        <td>Annualized Jensen's Alpha ($\alpha$)</td>
-                        <td>+22.3%</td>
-                        <td>+5.8%</td>
-                        <td><strong>+74.6%</strong></td>
-                        <td>0.0%</td>
                     </tr>
                 </tbody>
             </table>
             <div class="table-notes">
-                <em>Notes:</em> Evaluation period spans January 1, 2020 through August 31, 2026. All statistics are evaluated out-of-sample following a pre-2020 training cutoff. Transaction friction includes 0.1425% broker commission and 0.30% transaction tax. Benchmark represents the Taiwan Capitalization Weighted Stock Index (TAIEX).
+                <em>Notes:</em> Net of 0.1425% commission and 0.30% transaction tax under realistic next-session close-triggered stop execution (<code>touched_exit=False</code>; verified monotonic under strict intraday high-low stress <code>touched_exit=True</code> across 132 runs).
             </div>
         </div>
 
-        <figure>
-            <img src="fig_performance.svg" alt="Cumulative Out-of-Sample Performance Curve" />
-            <figcaption>
-                <strong>Figure 3: Out-of-Sample Cumulative Wealth Trajectory (2020&ndash;2026).</strong> Logarithmic scale. The Size-Adaptive Ensemble achieved a terminal wealth multiplier of 48.5x (CAGR +78.95%), compared to 2.25x for the TAIEX benchmark. Note the flat capital preservation trajectory throughout the 2022 bear market cycle.
-            </figcaption>
-        </figure>
-
-        <figure>
-            <img src="fig_drawdown.svg" alt="Underwater Drawdown Curve" />
-            <figcaption>
-                <strong>Figure 4: Comparative Underwater Portfolio Drawdown Profile.</strong> The maximum drawdown of the Size-Adaptive Ensemble was confined to -10.55%, effectively neutralizing the severe -32.50% contraction experienced by the broad equity market in 2022.
-            </figcaption>
-        </figure>
-
-        <h2>7. Systematic Ablation Study: What Failed vs. What Worked</h2>
-        <p>
-            Rigorous quantitative engineering requires disciplined hypothesis invalidation. During research iterations, several intuitive market hypotheses were empirically invalidated:
-        </p>
-
-        <!-- Booktabs Ablation Table -->
         <div class="table-container">
-            <div class="table-caption">Table 2: Systematic Ablation Analysis of Research Hypotheses</div>
+            <div class="table-caption">Table 2: Engine II (US <code>TQQQ-007 M14-Apex</code>, 2016&ndash;2026) Tolerance-Band Execution Audit</div>
             <table class="booktabs-table">
                 <thead>
                     <tr>
-                        <th>Architectural Hypothesis</th>
-                        <th>Empirical Outcome</th>
-                        <th>Failure Classification</th>
-                        <th>Econometric &amp; Microstructure Rationale</th>
+                        <th>Metric</th>
+                        <th>Buy &amp; Hold <code>TQQQ</code></th>
+                        <th>Price-Only Vol-Target</th>
+                        <th><code>TQQQ-007</code> (Pure <code>SGOV</code>)</th>
+                        <th><code>TQQQ-007</code> + Crisis Sleeve</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Hard Boolean Intersections<br><small>(e.g., Low P/B AND High Institutional Flow)</small></td>
-                        <td>Sharpe: 2.08<br>MDD: -17.5%</td>
-                        <td>Intersection Collapse</td>
-                        <td>Heavily accumulated stocks trade at high valuation multiples; cheap stocks suffer institutional abandonment. Boolean AND-gates empty candidate breadth, magnifying idiosyncratic volatility. <em>Resolution: Soft additive scoring.</em></td>
+                        <td>Full-Cycle Audited CAGR (2016&ndash;2026)</td>
+                        <td>+38.40%</td>
+                        <td>+31.76%</td>
+                        <td><strong>+55.10%</strong></td>
+                        <td><strong>+56.41%</strong></td>
                     </tr>
                     <tr>
-                        <td>Quarterly Margin Acceleration Gating<br><small>(Gross margin &amp; operating margin filters)</small></td>
-                        <td>Sharpe: 1.29<br>MDD: -19.8%</td>
-                        <td>Information Reporting Lag</td>
-                        <td>Quarterly financial statements in Taiwan lag by up to 45 days. Filtering on historical statements forces portfolio entry at the exhaustion of fundamental moves. <em>Resolution: Monthly revenue momentum.</em></td>
-                    </tr>
-                    <tr>
-                        <td>Shareholder Registry Dispersion<br><small>(Weekly TDCC whale accumulation metrics)</small></td>
-                        <td>Sharpe: 0.65<br>MDD: -24.0%</td>
-                        <td>Settlement Information Decay</td>
-                        <td>Weekly shareholder registry disclosures exhibit severe settlement latency and noise. Signals degraded into near-random selection in multi-week horizons.</td>
-                    </tr>
-                    <tr>
-                        <td>Dynamic Style-Switching per Macro State<br><small>(Switching factor weights dynamically)</small></td>
-                        <td>Sharpe: 2.72<br>MDD: -11.4%</td>
-                        <td>Excessive Rebalance Friction</td>
-                        <td>Altering factor coefficients across macro inflection points induced violent portfolio turnover, causing high transaction tax erosion. Static factor weights with dynamic gross exposure proved strictly superior.</td>
+                        <td>2022&ndash;2026 Out-of-Sample CAGR</td>
+                        <td>+14.20%</td>
+                        <td>+27.42%</td>
+                        <td><strong>+43.65%</strong></td>
+                        <td><strong>+48.77%</strong></td>
                     </tr>
                     <tr class="mid-rule">
-                        <td><strong>Size-Adaptive Continuous GBDT Ensemble</strong><br><small>(Continuous capitalization rank modulation)</small></td>
-                        <td><strong>Sharpe: 3.80<br>MDD: -10.55%</strong></td>
-                        <td><strong>Optimal Architecture</strong></td>
-                        <td><strong>Eliminates size asymmetry by aligning factor exposures with the empirical microstructure of large- and small-cap market participants.</strong></td>
+                        <td>Maximum Drawdown (MDD)</td>
+                        <td>-81.65%</td>
+                        <td>-32.98%</td>
+                        <td><strong>-29.88%</strong></td>
+                        <td>-30.34%</td>
+                    </tr>
+                    <tr>
+                        <td>Daily Sharpe / Calmar Ratio</td>
+                        <td>0.76 / 0.47</td>
+                        <td>0.95 / 0.96</td>
+                        <td><strong>1.30 / 1.84</strong></td>
+                        <td><strong>1.33 / 1.86</strong></td>
+                    </tr>
+                    <tr>
+                        <td>2022 Rate-Shock Bear Market</td>
+                        <td>-79.08%</td>
+                        <td>-12.78%</td>
+                        <td><strong>-6.10% (<code>SGOV</code>)</strong></td>
+                        <td><strong>+1.07% (<code>GLD/UUP</code>)</strong></td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <h2>8. Production Architecture &amp; Hardware Deployment</h2>
+        <figure>
+            <img src="fig_performance.svg" alt="Audited Cumulative Performance Trajectories" />
+            <figcaption>
+                <strong>Figure 3: Audited Cumulative Wealth Trajectories (Logarithmic Scale).</strong> Both <code>Titan-4S</code> and <code>TQQQ-007</code> sidestepped the 2022 global tightening drawdown via deterministic cash/T-Bill locks before compounding strongly through the 2023&ndash;2026 expansion.
+            </figcaption>
+        </figure>
+
+        <figure>
+            <img src="fig_drawdown.svg" alt="Comparative Underwater Drawdown Profile" />
+            <figcaption>
+                <strong>Figure 4: Comparative Underwater Drawdown Profile (Taiwan Equities).</strong> <code>Titan-4S</code> bounded full-cycle drawdown within -11.80% to -12.13%, neutralizing the -32.50% TAIEX contraction in 2022.
+            </figcaption>
+        </figure>
+
+        <h2>5. Systematic Falsification Log: Why Intuitive Alternatives Failed</h2>
+        <div class="table-container">
+            <div class="table-caption">Table 3: Falsified Hypotheses Across 132 Structural &amp; First-Principles Experiments</div>
+            <table class="booktabs-table">
+                <thead>
+                    <tr>
+                        <th>Hypothesis Tested</th>
+                        <th>Empirical Outcome</th>
+                        <th>Failure Mode</th>
+                        <th>First-Principles Microstructure Explanation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Raising Taiwan Price Cap<br><small>(NT$250 &rarr; 300 / 375 / 500 / Uncapped)</small></td>
+                        <td>CAGR: 52.8% &rarr; 48.2%<br>MDD: -11.8% &rarr; -15.8%</td>
+                        <td>Monotonic Alpha Decay</td>
+                        <td>Stocks priced &gt;NT$250 trade at 8&ndash;18&times; P/B with crowded foreign ownership and violent overnight SOX beta. Dedicated high-price AI sleeves suffered -64.1% MDD (-46.3% in 2022).</td>
+                    </tr>
+                    <tr>
+                        <td>Linear / Geometric White-Box Factor Models<br><small>(Replacing non-linear GBDT interactions)</small></td>
+                        <td>CAGR: +23.8% to +26.6%<br>MDD: -25.6% to -26.6%</td>
+                        <td>Cyclical Value Traps</td>
+                        <td>Additive or multiplicative linear combinations cannot express conditional veto rules (e.g., low P/B is positive only when revenue momentum and margin trajectory are non-contracting).</td>
+                    </tr>
+                    <tr>
+                        <td>Hard Mid-Cycle Breadth Circuit Breakers<br><small>(Forcing 0% exposure when B20 &lt; 18%)</small></td>
+                        <td>CAGR: +48.6%<br>MDD: -17.5%</td>
+                        <td>V-Bottom Whipsaw Drag</td>
+                        <td>Existing soft deleveraging (top-decile ATR% &times; weak breadth) already trims exposure to ~35&ndash;44%. Hard mid-cycle liquidation locks out violent V-shaped recovery rallies.</td>
+                    </tr>
+                    <tr class="mid-rule">
+                        <td><strong>Kyle&rsquo;s Lambda Volume-Normalized Flow</strong><br><small>($\overline{Q}_{3d}/\overline{V}_{20d}$ + Purged Dual-Engine)</small></td>
+                        <td><strong>OOS: +68.8%<br>Sharpe: 2.34</strong></td>
+                        <td><strong>Pareto Optimal</strong></td>
+                        <td><strong>Restores scale-free dimensional invariance to institutional order flow without adding a single free hyperparameter.</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>6. Production MLOps, Serving-Skew Telemetry &amp; Broker Safety</h2>
         <p>
-            The strategy is deployed in live production via an object-oriented Python architecture derived from an abstract <code>BaseStrategy</code> interface. The system operates headlessly on Linux infrastructure:
+            The dual-engine system operates autonomously in stateless cloud production via GitHub Actions (twice daily aligned to TWSE and NASDAQ market closes) with four institutional engineering guardrails:
         </p>
         <ul style="margin-left: 28px; margin-bottom: 20px; font-family: var(--font-sans); font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7;">
-            <li style="margin-bottom: 8px;"><strong>Deterministic Inference:</strong> Tree models are trained with strictly fixed random seeds (<code>random_state=42</code>) under unified <code>uv</code> virtual environment management.</li>
-            <li style="margin-bottom: 8px;"><strong>Automated Daily Telemetry:</strong> Headless cron jobs execute daily post-market close (15:30 CST), fetching market-wide tick data, recalculating rolling ATR volatility ranks, evaluating OTC moving average ribbons, and transmitting real-time rebalance manifests to Discord and Telegram webhooks.</li>
-            <li style="margin-bottom: 8px;"><strong>Zero Odd-Lot Execution:</strong> Universe filters restrict candidates to stocks priced $\le$ NT$250, ensuring standard institutional 1,000-share round lots and zero odd-lot illiquidity discounts.</li>
+            <li style="margin-bottom: 8px;"><strong>Online-Offline Feature Drift Monitor:</strong> Every execution computes Population Stability Index (PSI) across all 83 raw and rank-normalized features (live <code>Rank-Norm PSI = 0.0020</code>, zero serving skew).</li>
+            <li style="margin-bottom: 8px;"><strong>Intra-Week Drift Lock &amp; trailing-bar synchronization:</strong> Portfolio state machines lock holdings across non-rebalance days to eliminate mid-cycle cross-sectional rank jitter while monitoring daily hard and trailing profit-lock stops.</li>
+            <li style="margin-bottom: 8px;"><strong>Sub-Account Isolation &amp; Sell-Before-Buy Execution:</strong> Optional IBKR execution enforces sub-account hard whitelisting, a 5-ticker symbol whitelist (<code>TQQQ</code>, <code>SGOV</code>, <code>BIL</code>, <code>GLD</code>, <code>UUP</code>), a 0.5% cash slippage buffer, and strict <code>Filled</code> verification on sell legs prior to submitting buy orders.</li>
         </ul>
-
-        <h2>9. Conclusion</h2>
-        <p>
-            This study demonstrates that addressing cross-sectional size asymmetry via a continuous, market-cap adaptive weighting framework significantly enhances the out-of-sample robustness of gradient boosted decision tree ensembles. In emerging equities, where market participant profiles diverge sharply between capitalization deciles, uniform factor modeling leads to structural fragility. Combined with a multi-tiered macro and volatility circuit-breaker protocol, the strategy successfully sheltered capital throughout the 2022 bear market while achieving exceptional risk-adjusted efficiency across 2020&ndash;2026. Future research will explore multi-agent LLM reasoning workflows for post-announcement earnings drift extraction from unstructured corporate disclosures.
-        </p>
 
         <!-- References Section -->
         <div class="references-section">
             <h3 style="margin-top: 0; font-size: 1.15rem; margin-bottom: 16px;">References</h3>
             <div class="ref-item">
-                <strong>Asness, C. S., T. J. Moskowitz, and L. H. Pedersen (2013).</strong> "Value and Momentum Everywhere." <em>The Journal of Finance</em>, 68(3), 929&ndash;985.
+                <strong>Asness, C. S., T. J. Moskowitz, and L. H. Pedersen (2013).</strong> &ldquo;Value and Momentum Everywhere.&rdquo; <em>The Journal of Finance</em>, 68(3), 929&ndash;985.
             </div>
             <div class="ref-item">
-                <strong>Bernard, V. L., and J. K. Thomas (1989).</strong> "Post-Earnings-Announcement Drift: Delayed Price Response or Risk Premium?" <em>Journal of Accounting Research</em>, 27, 1&ndash;36.
+                <strong>Bailey, D. H., J. Borwein, M. L&oacute;pez de Prado, and Q. J. Zhu (2014).</strong> &ldquo;Pseudo-Mathematics and Financial Charlatanism: The Effects of Backtest Overfitting on Out-of-Sample Performance.&rdquo; <em>Notices of the AMS</em>, 61(5), 458&ndash;471.
             </div>
             <div class="ref-item">
-                <strong>Carhart, M. M. (1997).</strong> "On Persistence in Mutual Fund Performance." <em>The Journal of Finance</em>, 52(1), 57&ndash;82.
+                <strong>Gu, S., B. Kelly, and D. Xiu (2020).</strong> &ldquo;Empirical Asset Pricing via Machine Learning.&rdquo; <em>The Review of Financial Studies</em>, 33(5), 2223&ndash;2273.
             </div>
             <div class="ref-item">
-                <strong>Fama, E. F., and K. R. French (1993).</strong> "Common Risk Factors in the Returns on Stocks and Bonds." <em>Journal of Financial Economics</em>, 33(1), 3&ndash;56.
+                <strong>Kyle, A. S. (1985).</strong> &ldquo;Continuous Auctions and Insider Trading.&rdquo; <em>Econometrica</em>, 53(6), 1315&ndash;1335.
             </div>
             <div class="ref-item">
-                <strong>Gu, S., B. Kelly, and D. Xiu (2020).</strong> "Empirical Asset Pricing via Machine Learning." <em>The Review of Financial Studies</em>, 33(5), 2223&ndash;2273.
+                <strong>L&oacute;pez de Prado, M. (2018).</strong> <em>Advances in Financial Machine Learning</em>. John Wiley &amp; Sons (Purged Walk-Forward &amp; Embargo Cross-Validation).
             </div>
             <div class="ref-item">
-                <strong>Jegadeesh, N., and S. Titman (1993).</strong> "Returns to Buying Winners and Selling Losers: Implications for Stock Market Efficiency." <em>The Journal of Finance</em>, 48(1), 65&ndash;91.
-            </div>
-            <div class="ref-item">
-                <strong>Ke, G., Q. Meng, T. Finley, et al. (2017).</strong> "LightGBM: A Highly Efficient Gradient Boosting Decision Tree." <em>Advances in Neural Information Processing Systems (NeurIPS)</em>, 30, 3146&ndash;3154.
-            </div>
-            <div class="ref-item">
-                <strong>Prokhorenkova, L., G. Gusev, A. Vorobev, et al. (2018).</strong> "CatBoost: Unbiased Boosting with Categorical Features." <em>Advances in Neural Information Processing Systems (NeurIPS)</em>, 31, 6638&ndash;6648.
+                <strong>Ke, G., Q. Meng, T. Finley, et al. (2017).</strong> &ldquo;LightGBM: A Highly Efficient Gradient Boosting Decision Tree.&rdquo; <em>NeurIPS</em>, 30, 3146&ndash;3154.
             </div>
         </div>
 
-        <!-- BibTeX Box -->
-        <div class="bibtex-box">
-@article{yang2026marketcap,
-  title   = {Market-Cap Adaptive Ensembles and Regime-Switching Risk Governance in Emerging Equities},
+        <div class="bibtex-box">@article{yang2026dualengine,
+  title   = {Purged Walk-Forward Ensembles, Kyle's Lambda Microstructure Impact, and Cross-Market Regime Governance},
   author  = {Yang, Noel},
   journal = {Working Paper Series in Quantitative Finance},
   year    = {2026},
-  number  = {2026-04},
+  number  = {2026-11},
   url     = {https://noeltw.github.io/quant-research/}
-}
-        </div>
+}</div>
 
     </div>
 
-    <!-- Academic Footer -->
     <div class="academic-footer">
-        <p>&copy; 2026 Noel Yang &bull; Micron Technology &bull; Quantitative Strategy &amp; Empirical Finance</p>
+        <p>&copy; 2026 Noel Yang &bull; Micron Technology (Singapore) &bull; Autonomous AI &amp; Quantitative Systems</p>
         <p style="margin-top: 6px;">
             <a href="https://github.com/NoelTW">GitHub Profile</a> &bull; 
             <a href="https://github.com/NoelTW/quant-research">Source Repository</a> &bull; 
-            <a href="mailto:as11111satw@gmail.com">Contact</a>
+            <a href="mailto:noelyang0208@gmail.com">Contact</a>
         </p>
     </div>
 
@@ -768,14 +721,10 @@
         localStorage.setItem('theme', newTheme);
     }
 
-    // Check system preference
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        // Default to paper for authentic academic feel, or load stored preference
-        const stored = localStorage.getItem('theme');
-        if (stored === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            document.getElementById('themeBtn').textContent = 'Paper Mode';
-        }
+    const stored = localStorage.getItem('theme');
+    if (stored === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.getElementById('themeBtn').textContent = 'Paper Mode';
     }
 </script>
 
